@@ -13,6 +13,8 @@ class Index extends Component {
           </header>
           <p className="Index-intro">
             <Link to="/login">Login</Link>
+            <br />
+            <Link to="/register">Register</Link>
           </p>
         </div>
       );

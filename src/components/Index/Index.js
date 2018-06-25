@@ -15,6 +15,10 @@ class Index extends Component {
             <Link to="/login">Login</Link>
             <br />
             <Link to="/register">Register</Link>
+            <br />
+            <Link to="/forms/institution">Register institution</Link>
+            <br />
+            <Link to="/forms/musician">Register musician</Link>
           </p>
         </div>
       );

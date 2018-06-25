@@ -64,8 +64,8 @@ class Login extends Component {
       <Card style={styles.cardStyle}>
         <form onSubmit={this.handleSubmit}>
           <p><b>Login</b></p>
-          <TextField style={styles.emailTextFieldStyle} label="Email" value={this.state.email} onChange={this.handleChange('email')} />
-          <TextField style={styles.passwordTextFieldStyle} label="Password" value={this.state.password} onChange={this.handleChange('password')} />
+          <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
+          <TextField style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
           <Button style={styles.buttonStyle} type="submit" color="primary">Login</Button>
         </form>
       </Card>

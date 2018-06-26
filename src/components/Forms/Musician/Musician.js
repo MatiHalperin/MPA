@@ -25,15 +25,17 @@ class Musician extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.4.12:3000/api/Users/login', {
+    fetch('http://10.18.4.22:3000/api/Musicos', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
+        nombre: this.state.name,
+        apellido: this.state.sirname,
+        video: this.state.video,
+        ciudad: this.state.city,
       })
     })
     .then(response => response.json())

@@ -23,7 +23,7 @@ class Register extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.4.12:3000/api/Users/login', {
+    fetch('http://10.18.4.22:3000/api/Users', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

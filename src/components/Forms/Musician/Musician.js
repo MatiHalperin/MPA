@@ -11,7 +11,10 @@ class Musician extends Component {
       name: '',
       sirname: '',
       video: '',
-      city: ''
+      city: '',
+      username: '',
+      email: '',
+      password: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -25,7 +28,7 @@ class Musician extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.18.4.22:3000/api/Musicos', {
+    fetch('http://10.10.7.28:3000/api/Musicos', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -36,6 +39,9 @@ class Musician extends Component {
         apellido: this.state.sirname,
         video: this.state.video,
         ciudad: this.state.city,
+        username: this.state.username,
+        email: this.state.email,
+        password: this.state.password,
       })
     })
     .then(response => response.json())
@@ -52,19 +58,11 @@ class Musician extends Component {
         width: 'fit-content',
         padding: '16px',
       },
-      nameTextFieldStyle: {
+      halfWidthTextFieldStyle: {
         width: '49%',
         marginRight: '1%',
       },
-      sirnameTextFieldStyle: {
-        width: '49%',
-        marginLeft: '1%',
-      },
-      videoTextFieldStyle: {
-        width: '100%',
-        marginTop: '16px',
-      },
-      cityTextFieldStyle: {
+      textFieldStyle: {
         width: '100%',
         marginTop: '16px',
       },
@@ -77,10 +75,13 @@ class Musician extends Component {
       <Card style={styles.cardStyle}>
         <form onSubmit={this.handleSubmit}>
           <p><b>Register musician</b></p>
-          <TextField style={styles.nameTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
-          <TextField style={styles.sirnameTextFieldStyle} label="Sirname" type="text" value={this.state.sirname} onChange={this.handleChange('sirname')} />
-          <TextField style={styles.videoTextFieldStyle} label="Video" type="text" value={this.state.video} onChange={this.handleChange('video')} />
-          <TextField style={styles.cityTextFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
+          <TextField style={styles.halfWidthTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField style={styles.halfWidthTextFieldStyle} label="Sirname" type="text" value={this.state.sirname} onChange={this.handleChange('sirname')} />
+          <TextField style={styles.textFieldStyle} label="Video" type="text" value={this.state.video} onChange={this.handleChange('video')} />
+          <TextField style={styles.textFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
+          <TextField style={styles.textFieldStyle} label="Username" type="text" value={this.state.username} onChange={this.handleChange('username')} />
+          <TextField style={styles.textFieldStyle} label="Email" type="text" value={this.state.email} onChange={this.handleChange('email')} />
+          <TextField style={styles.textFieldStyle} label="Password" type="text" value={this.state.password} onChange={this.handleChange('password')} />
           <Button style={styles.buttonStyle} type="submit" color="primary">Register</Button>
         </form>
       </Card>

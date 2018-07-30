@@ -23,7 +23,7 @@ class Login extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.18.4.22:3000/api/Users/login', {
+    fetch('http://10.10.7.28:3000/api/Users/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

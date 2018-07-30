@@ -10,7 +10,9 @@ class Institution extends Component {
     this.state = {
       name: '',
       city: '',
-      phone: ''
+      phone: '',
+      email: '',
+      password: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,7 +26,7 @@ class Institution extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.18.4.22:3000/api/institucions', {
+    fetch('http://10.10.7.28:3000/api/institucions', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -34,6 +36,8 @@ class Institution extends Component {
         nombre: this.state.name,
         ciudad: this.state.city,
         telefono: this.state.phone,
+        email: this.state.email,
+        password: this.state.password,
       })
     })
     .then(response => response.json())
@@ -50,14 +54,10 @@ class Institution extends Component {
         width: 'fit-content',
         padding: '16px',
       },
-      nameTextFieldStyle: {
+      firstTextFieldStyle: {
         width: '100%',
       },
-      cityTextFieldStyle: {
-        width: '100%',
-        marginTop: '16px',
-      },
-      phoneTextFieldStyle: {
+      textFieldStyle: {
         width: '100%',
         marginTop: '16px',
       },
@@ -70,9 +70,11 @@ class Institution extends Component {
       <Card style={styles.cardStyle}>
         <form onSubmit={this.handleSubmit}>
           <p><b>Register institution</b></p>
-          <TextField style={styles.nameTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
-          <TextField style={styles.cityTextFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
-          <TextField style={styles.phoneTextFieldStyle} label="Phone" type="text" value={this.state.phone} onChange={this.handleChange('phone')} />
+          <TextField style={styles.firstTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
+          <TextField style={styles.textFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
+          <TextField style={styles.textFieldStyle} label="Phone" type="text" value={this.state.phone} onChange={this.handleChange('phone')} />
+          <TextField style={styles.textFieldStyle} label="Email" type="text" value={this.state.email} onChange={this.handleChange('email')} />
+          <TextField style={styles.textFieldStyle} label="Password" type="text" value={this.state.password} onChange={this.handleChange('password')} />
           <Button style={styles.buttonStyle} type="submit" color="primary">Register</Button>
         </form>
       </Card>

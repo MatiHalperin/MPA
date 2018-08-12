@@ -16,9 +16,13 @@ class Index extends Component {
             <br />
             <Link to="/register">Register</Link>
             <br />
+            <Link to="/forms/concert">Create concert</Link>
+            <br />
             <Link to="/forms/institution">Register institution</Link>
             <br />
             <Link to="/forms/musician">Register musician</Link>
+            <br />
+            <Link to="/profile">Profile</Link>
           </p>
         </div>
       );

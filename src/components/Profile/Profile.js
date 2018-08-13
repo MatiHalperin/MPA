@@ -8,29 +8,22 @@ class Profile extends Component {
     super(props);
 
     this.state = {
-      email: '',
-      password: ''
+      email: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
-    // TODO: Change URL and body to fetch user data
-    fetch('http://10.10.7.28:3000/api/Users', {
-      method: 'POST',
+    fetch('http://10.10.5.35:3000/api/Users/' + sessionStorage.getItem("userId") + '?access_token=' + sessionStorage.getItem("accessToken"), {
+      method: 'GET',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-      })
     })
     .then(response => response.json())
     .then(response => {
-      this.state.email = response.email;
-      this.state.password = response.password;
+      this.setState({email: response.email});
     });
   }
 
@@ -40,9 +33,8 @@ class Profile extends Component {
     });
   };
 
-  // TODO: Change URL and body to edit existing user
   handleSubmit(event) {
-    fetch('http://10.10.7.28:3000/api/Users', {
+    fetch('http://10.10.5.35:3000/api/Users/' + sessionStorage.getItem("userId") + '/replace?access_token=' + sessionStorage.getItem("accessToken"), {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -50,7 +42,6 @@ class Profile extends Component {
       },
       body: JSON.stringify({
         email: this.state.email,
-        password: this.state.password,
       })
     })
     .then(response => response.json())
@@ -84,7 +75,6 @@ class Profile extends Component {
         <form onSubmit={this.handleSubmit}>
           <p><b>Profile</b></p>
           <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
-          <TextField style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
           <Button style={styles.buttonStyle} type="submit" color="primary">Save</Button>
         </form>
       </Card>

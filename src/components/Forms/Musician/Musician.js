@@ -28,7 +28,7 @@ class Musician extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.7.28:3000/api/Musicos', {
+    fetch('http://10.10.5.35:3000/api/Musicos', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

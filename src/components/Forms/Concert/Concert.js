@@ -25,7 +25,7 @@ class Concert extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.7.28:3000/api/Conciertos', {
+    fetch('http://10.10.5.35:3000/api/Conciertos', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

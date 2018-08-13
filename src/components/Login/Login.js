@@ -14,6 +14,11 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+
+    if (sessionStorage.getItem("userId") !== null && sessionStorage.getItem("accessToken") !== null)
+      console.log("Logged in");
+    else
+      console.log("Nope");
   }
 
   handleChange = name => event => {
@@ -23,7 +28,7 @@ class Login extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.7.28:3000/api/Users/login', {
+    fetch('http://10.10.5.35:3000/api/Users/login', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',
@@ -36,7 +41,8 @@ class Login extends Component {
     })
     .then(response => response.json())
     .then(response => {
-      console.log(response);
+      sessionStorage.setItem("userId", response.userId);
+      sessionStorage.setItem("accessToken", response.id);
     });
 
     event.preventDefault();

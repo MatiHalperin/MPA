@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+
+import Navigation from '../Navigation';
+import Server from '../Server';
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -28,18 +32,7 @@ class Login extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.5.35:3000/api/Users/login', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-        password: this.state.password,
-      })
-    })
-    .then(response => response.json())
+    Server.postJson("/api/Users/login", { email: this.state.email, password: this.state.password })
     .then(response => {
       sessionStorage.setItem("userId", response.userId);
       sessionStorage.setItem("accessToken", response.id);
@@ -53,6 +46,7 @@ class Login extends Component {
       cardStyle: {
         width: 'fit-content',
         padding: '16px',
+        margin: '8px',
       },
       emailTextFieldStyle: {
         width: '100%',
@@ -67,14 +61,17 @@ class Login extends Component {
     };
 
     return (
-      <Card style={styles.cardStyle}>
-        <form onSubmit={this.handleSubmit}>
-          <p><b>Login</b></p>
-          <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
-          <TextField style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
-          <Button style={styles.buttonStyle} type="submit" color="primary">Login</Button>
-        </form>
-      </Card>
+      <div>
+        <Navigation />
+
+        <Card style={styles.cardStyle}>
+          <form onSubmit={this.handleSubmit}>
+            <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
+            <TextField style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
+            <Button style={styles.buttonStyle} type="submit" color="primary">Login</Button>
+          </form>
+        </Card>
+      </div>
     );
   }
 }

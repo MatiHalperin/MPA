@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+
+import Navigation from '../Navigation';
+import Server from '../Server';
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -14,14 +18,9 @@ class Profile extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
 
-    fetch('http://10.10.5.35:3000/api/Users/' + sessionStorage.getItem("userId") + '?access_token=' + sessionStorage.getItem("accessToken"), {
-      method: 'GET',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-    })
-    .then(response => response.json())
+    this.path = "/api/Users/" + sessionStorage.getItem("userId") + "?access_token=" + sessionStorage.getItem("accessToken");
+
+    Server.getJson(this.path, {})
     .then(response => {
       this.setState({email: response.email});
     });
@@ -34,17 +33,7 @@ class Profile extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.5.35:3000/api/Users/' + sessionStorage.getItem("userId") + '/replace?access_token=' + sessionStorage.getItem("accessToken"), {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        email: this.state.email,
-      })
-    })
-    .then(response => response.json())
+    Server.postJson(this.path, { email: this.state.email })
     .then(response => {
       console.log(response);
     });
@@ -57,6 +46,7 @@ class Profile extends Component {
       cardStyle: {
         width: 'fit-content',
         padding: '16px',
+        margin: '8px',
       },
       emailTextFieldStyle: {
         width: '100%',
@@ -71,13 +61,16 @@ class Profile extends Component {
     };
 
     return (
-      <Card style={styles.cardStyle}>
-        <form onSubmit={this.handleSubmit}>
-          <p><b>Profile</b></p>
-          <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
-          <Button style={styles.buttonStyle} type="submit" color="primary">Save</Button>
-        </form>
-      </Card>
+      <div>
+        <Navigation />
+
+        <Card style={styles.cardStyle}>
+          <form onSubmit={this.handleSubmit}>
+            <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
+            <Button style={styles.buttonStyle} type="submit" color="primary">Save</Button>
+          </form>
+        </Card>
+      </div>
     );
   }
 }

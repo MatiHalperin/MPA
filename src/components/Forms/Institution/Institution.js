@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Server from '../../Server';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -26,7 +27,7 @@ class Institution extends Component {
   };
 
   handleSubmit(event) {
-    fetch('http://10.10.5.35:3000/api/institucions', {
+    fetch(Server.getIP() + 'api/institucions', {
       method: 'POST',
       headers: {
         'Accept': 'application/json',

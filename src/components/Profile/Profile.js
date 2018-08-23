@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Navigation from '../Navigation';
+import Page from '../Page';
 import Server from '../Server';
 
 import Button from '@material-ui/core/Button';
@@ -20,7 +21,7 @@ class Profile extends Component {
 
     this.path = "/api/Users/" + sessionStorage.getItem("userId") + "?access_token=" + sessionStorage.getItem("accessToken");
 
-    Server.getJson(this.path, {})
+    Server.getJson(this.path)
     .then(response => {
       this.setState({email: response.email});
     });
@@ -61,7 +62,7 @@ class Profile extends Component {
     };
 
     return (
-      <div>
+      <Page>
         <Navigation />
 
         <Card style={styles.cardStyle}>
@@ -70,7 +71,7 @@ class Profile extends Component {
             <Button style={styles.buttonStyle} type="submit" color="primary">Save</Button>
           </form>
         </Card>
-      </div>
+      </Page>
     );
   }
 }

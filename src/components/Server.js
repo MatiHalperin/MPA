@@ -1,17 +1,16 @@
 class Server {
   static getURL() {
-    return "http://10.10.5.35:3000";
+    return "http://10.10.0.54:3000";
   }
 
-  static async pullJson(path, connectionMethod, requestBody) {
+  static async getJson(path) {
     try {
       let response = await fetch(Server.getURL() + path, {
-        method: connectionMethod,
+        method: "GET",
         headers: {
-          'Accept': 'application/json',
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(requestBody)
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        }
       });
       let responseJson = await response.json();
       return responseJson;
@@ -20,14 +19,21 @@ class Server {
     }
   }
 
-  static async getJson(path, requestBody) {
-    let responseJson = await Server.pullJson(path, "GET", requestBody);
-    return responseJson;
-  }
-
   static async postJson(path, requestBody) {
-    let responseJson = await Server.pullJson(path, "POST", requestBody);
-    return responseJson;
+    try {
+      let response = await fetch(Server.getURL() + path, {
+        method: "POST",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestBody)
+      });
+      let responseJson = await response.json();
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 

@@ -1,10 +1,14 @@
 import React, { Component } from 'react';
+
 import Navigation from '../Navigation';
+import Page from '../Page';
 
 class Index extends Component {
   render() {
-    return(
-      <Navigation />
+    return (
+      <Page>
+        <Navigation />
+      </Page>
     );
   }
 }

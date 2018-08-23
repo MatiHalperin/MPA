@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Navigation from '../Navigation';
+import Page from '../Page';
 import Server from '../Server';
 
 import Button from '@material-ui/core/Button';
@@ -13,19 +15,17 @@ class Login extends Component {
 
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      error: false
     };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-
-    if (sessionStorage.getItem("userId") !== null && sessionStorage.getItem("accessToken") !== null)
-      console.log("Logged in");
-    else
-      console.log("Nope");
   }
 
   handleChange = name => event => {
+    this.setState({error: false});
+
     this.setState({
       [name]: event.target.value,
     });
@@ -34,8 +34,14 @@ class Login extends Component {
   handleSubmit(event) {
     Server.postJson("/api/Users/login", { email: this.state.email, password: this.state.password })
     .then(response => {
-      sessionStorage.setItem("userId", response.userId);
-      sessionStorage.setItem("accessToken", response.id);
+      if (response.userId != null && response.id != null)
+      {
+        sessionStorage.setItem("userId", response.userId);
+        sessionStorage.setItem("accessToken", response.id);
+        this.props.history.push("/");
+      }
+      else
+        this.setState({error: true});
     });
 
     event.preventDefault();
@@ -57,21 +63,27 @@ class Login extends Component {
       },
       buttonStyle: {
         marginTop: '16px',
+      },
+      registerLink: {
+        textDecoration: 'none',
       }
     };
 
     return (
-      <div>
+      <Page>
         <Navigation />
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
-            <TextField style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
+            <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
+            <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Login</Button>
+            <Link to="/register" style={styles.registerLink}>
+              <Button style={styles.buttonStyle} color="primary">Register</Button>
+            </Link>
           </form>
         </Card>
-      </div>
+      </Page>
     );
   }
 }

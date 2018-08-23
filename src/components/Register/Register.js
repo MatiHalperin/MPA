@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 
 import Navigation from '../Navigation';
+import Page from '../Page';
 import Server from '../Server';
 
 import Button from '@material-ui/core/Button';
@@ -55,7 +56,7 @@ class Register extends Component {
     };
 
     return (
-      <div>
+      <Page>
         <Navigation />
 
         <Card style={styles.cardStyle}>
@@ -65,7 +66,7 @@ class Register extends Component {
             <Button style={styles.buttonStyle} type="submit" color="primary">Register</Button>
           </form>
         </Card>
-      </div>
+      </Page>
     );
   }
 }

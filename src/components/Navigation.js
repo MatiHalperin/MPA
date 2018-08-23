@@ -27,9 +27,22 @@ class Navigation extends Component {
       },
     };
 
-    var navbarButton = SessionHandler.isLoggedIn
-                        ? <Link to="/profile" style={styles.menuLink}>Profile</Link>
-                        : <Link to="/login" style={styles.menuLink}>Login</Link>;
+    var navbarButtons = SessionHandler.isLoggedIn()
+                          ? (
+                              <div>
+                                <Button color="inherit">
+                                  <Link to="/profile" style={styles.menuLink}>Profile</Link>
+                                </Button>
+                                <Button color="inherit">
+                                  <Link to="/logout" style={styles.menuLink}>Logout</Link>
+                                </Button>
+                              </div>
+                            )
+                          : (
+                              <Button color="inherit">
+                                <Link to="/login" style={styles.menuLink}>Login</Link>
+                              </Button>
+                            );
 
     return (
       <div style={styles.root}>
@@ -38,9 +51,7 @@ class Navigation extends Component {
             <Typography variant="title" color="inherit" style={styles.flex}>
               <Link to="/" style={styles.menuLink}>MPA</Link>
             </Typography>
-            <Button color="inherit">
-              {navbarButton}
-            </Button>
+            {navbarButtons}
           </Toolbar>
         </AppBar>
       </div>

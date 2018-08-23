@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Index from './components/Index/Index.js';
 import Login from './components/Login/Login.js';
+import Logout from './components/Logout/Logout.js';
 import Register from './components/Register/Register.js';
 import Concert from './components/Forms/Concert/Concert.js';
 import Musician from './components/Forms/Musician/Musician.js';
@@ -14,6 +15,7 @@ const PageRouter = () => (
     <div>
       <Route exact path="/" component={Index} />
       <Route path="/login" component={Login} />
+      <Route path="/logout" component={Logout} />
       <Route path="/register" component={Register} />
       <Route path="/forms/concert" component={Concert} />
       <Route path="/forms/institution" component={Institution} />

@@ -32,7 +32,7 @@ class Login extends Component {
   };
 
   handleSubmit(event) {
-    Server.postJson("/api/Users/login", { email: this.state.email, password: this.state.password })
+    Server.postJson("/api/Musicos/login", { email: this.state.email, password: this.state.password })
     .then(response => {
       if (response.userId != null && response.id != null)
       {

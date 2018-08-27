@@ -13,6 +13,7 @@ class Register extends Component {
     super(props);
 
     this.state = {
+      username: '',
       email: '',
       password: ''
     };
@@ -28,9 +29,18 @@ class Register extends Component {
   };
 
   handleSubmit(event) {
-    Server.postJson("/api/Users", { email: this.state.email, password: this.state.password })
+    Server.postJson("/api/Musicos", { username: this.state.username, email: this.state.email, password: this.state.password, esMusico: false })
     .then(response => {
       console.log(response);
+      Server.postJson("/api/Musicos/login", { email: this.state.email, password: this.state.password })
+      .then(response => {
+        if (response.userId != null && response.id != null)
+        {
+          sessionStorage.setItem("userId", response.userId);
+          sessionStorage.setItem("accessToken", response.id);
+          this.props.history.push("/");
+        }
+      });
     });
 
     event.preventDefault();
@@ -43,10 +53,10 @@ class Register extends Component {
         padding: '16px',
         margin: '8px',
       },
-      emailTextFieldStyle: {
+      firstTextFieldStyle: {
         width: '100%',
       },
-      passwordTextFieldStyle: {
+      textFieldStyle: {
         width: '100%',
         marginTop: '16px',
       },
@@ -61,8 +71,9 @@ class Register extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField style={styles.emailTextFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
-            <TextField style={styles.passwordTextFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
+            <TextField style={styles.firstTextFieldStyle} label="Username" type="text" value={this.state.username} onChange={this.handleChange('username')} />
+            <TextField style={styles.textFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
+            <TextField style={styles.textFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Register</Button>
           </form>
         </Card>

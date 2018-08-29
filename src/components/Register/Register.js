@@ -31,7 +31,6 @@ class Register extends Component {
   handleSubmit(event) {
     Server.postJson("/api/Musicos", { username: this.state.username, email: this.state.email, password: this.state.password, esmusico: false })
     .then(response => {
-      console.log(response);
       Server.postJson("/api/Musicos/login", { email: this.state.email, password: this.state.password })
       .then(response => {
         if (response.userId != null && response.id != null)

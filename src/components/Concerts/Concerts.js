@@ -50,7 +50,7 @@ class Concerts extends Component {
       for (let concertNumber in allConcerts) {
         let concert = allConcerts[concertNumber];
         concertList.push(
-          <Card style={styles.cardStyle}>
+          <Card key={concert.id} style={styles.cardStyle}>
             <Link to={"/concert?id=" + concert.id}>{concert.Descripcion}</Link>
           </Card>
         );

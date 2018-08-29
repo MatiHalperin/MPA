@@ -28,7 +28,6 @@ class Profile extends Component {
 
     Server.getJson(this.path)
     .then(response => {
-      console.log(response);
       this.setState({username: response.username});
       this.setState({email: response.email});
       this.setState({isMusician: response.esmusico});
@@ -54,7 +53,7 @@ class Profile extends Component {
       },
       username: {
         textAlign: 'center',
-        marginBottom: 0,
+        margin: 0,
       },
       email: {
         textAlign: 'center',

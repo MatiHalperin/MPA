@@ -62,7 +62,7 @@ class Profile extends Component {
       },
       musicianData: {
         border: '1px solid black',
-        paddingLeft: '1em',
+        padding: '0 1em',
       },
       buttonStyle: {
         marginTop: '16px',
@@ -95,7 +95,6 @@ class Profile extends Component {
           <h1 style={styles.username}>{this.state.username}</h1>
           <p style={styles.email}>{this.state.email}</p>
           {musicianBlock}
-          <Button style={styles.buttonStyle} color="primary">Change password</Button>
         </Card>
       </Page>
     );

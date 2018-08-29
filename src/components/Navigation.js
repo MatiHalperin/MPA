@@ -51,6 +51,9 @@ class Navigation extends Component {
             <Typography variant="title" color="inherit" style={styles.flex}>
               <Link to="/" style={styles.menuLink}>MPA</Link>
             </Typography>
+            <Button color="inherit">
+              <Link to="/concerts" style={styles.menuLink}>Conciertos</Link>
+            </Button>
             {navbarButtons}
           </Toolbar>
         </AppBar>

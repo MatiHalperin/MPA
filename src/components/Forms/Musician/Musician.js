@@ -69,7 +69,7 @@ class Musician extends Component {
             <TextField style={styles.halfWidthTextFieldStyle} label="Sirname" type="text" value={this.state.sirname} onChange={this.handleChange('sirname')} />
             <TextField style={styles.textFieldStyle} label="Video" type="text" value={this.state.video} onChange={this.handleChange('video')} />
             <TextField style={styles.textFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
-            <Button style={styles.buttonStyle} type="submit" color="primary">Register</Button>
+            <Button style={styles.buttonStyle} type="submit" color="primary">Convert</Button>
           </form>
         </Card>
       </Page>

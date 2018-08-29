@@ -27,7 +27,11 @@ class Concerts extends Component {
 
       for (let concertNumber in allConcerts) {
         let concert = allConcerts[concertNumber];
-        concertList.push(<p key={concert.id}>{concert.id} - {concert.Descripcion}</p>);
+        concertList.push(
+          <p>
+            <Link to={"/concert?id=" + concert.id}>{concert.Descripcion}</Link>
+          </p>
+        );
       }
     }
 

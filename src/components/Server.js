@@ -1,6 +1,6 @@
 class Server {
   static getURL() {
-    return "http://10.10.1.2:3000";
+    return "http://10.10.5.12:3000";
   }
 
   static async getJson(path) {

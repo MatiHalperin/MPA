@@ -9,11 +9,13 @@ import Concert from './components/Forms/Concert/Concert.js';
 import Musician from './components/Forms/Musician/Musician.js';
 import Institution from './components/Forms/Institution/Institution';
 import Profile from './components/Profile/Profile.js';
+import Concerts from './components/Concerts/Concerts.js';
 
 const PageRouter = () => (
   <Router>
     <div>
       <Route exact path="/" component={Index} />
+      <Route path="/concerts" component={Concerts} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
       <Route path="/register" component={Register} />

@@ -23,6 +23,11 @@ class Concert extends Component {
       this.setState({concertData: JSON.stringify(response)});
     });
 
+    Server.getJson("/api/ConciertoMusicos?filter={\"where\":{\"musicoId\":" + sessionStorage.getItem("userId") + ",\"conciertoId\":" + QueryString.parse(this.props.location.search).id + "}}&access_token=" + sessionStorage.getItem("accessToken"))
+    .then(response => {
+      this.setState({userIsPartOfIt: (response.length > 0)});
+    });
+
     this.handleJoinClick = this.handleJoinClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
@@ -33,7 +38,7 @@ class Concert extends Component {
       conciertoId: QueryString.parse(this.props.location.search).id
     })
     .then(response => {
-      console.log(response);
+      this.setState({userIsPartOfIt: true});
     });
 
     event.preventDefault();
@@ -80,13 +85,18 @@ class Concert extends Component {
       );
     }
 
+    let joinButton;
+
+    if (!this.state.userIsPartOfIt)
+      joinButton = <Button onClick={this.handleJoinClick} type="submit" color="primary">Join</Button>;
+
     return (
       <Page>
         <Navigation />
 
         <Card style={styles.cardStyle}>
           {concertLayout}
-          <Button onClick={this.handleJoinClick} type="submit" color="primary">Join</Button>
+          {joinButton}
           <Button onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
         </Card>
       </Page>

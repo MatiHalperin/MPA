@@ -52,7 +52,7 @@ class Navigation extends Component {
               <Link to="/" style={styles.menuLink}>MPA</Link>
             </Typography>
             <Button color="inherit">
-              <Link to="/concerts" style={styles.menuLink}>Conciertos</Link>
+              <Link to="/concerts" style={styles.menuLink}>Concerts</Link>
             </Button>
             {navbarButtons}
           </Toolbar>

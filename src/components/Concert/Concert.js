@@ -23,10 +23,11 @@ class Concert extends Component {
       this.setState({concertData: JSON.stringify(response)});
     });
 
-    this.handleClick = this.handleClick.bind(this);
+    this.handleJoinClick = this.handleJoinClick.bind(this);
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
-  handleClick(event) {
+  handleJoinClick(event) {
     Server.postJson("/api/ConciertoMusicos", {
       musicoId: sessionStorage.getItem("userId"),
       conciertoId: QueryString.parse(this.props.location.search).id
@@ -38,23 +39,46 @@ class Concert extends Component {
     event.preventDefault();
   }
 
+  handleDeleteClick(event) {
+    Server.deleteJson("/api/Conciertos/" + QueryString.parse(this.props.location.search).id)
+    .then(response => {
+      this.props.history.push("/concerts");
+    });
+
+    event.preventDefault();
+  }
+
   render() {
-    let concertLayout;
-
-    if (this.state.concertData) {
-      concertLayout = <p>{this.state.concertData}</p>;
-    }
-
     const styles = {
       cardStyle: {
         width: 'fit-content',
         padding: '16px',
         margin: '8px',
       },
-      buttonStyle: {
-        marginTop: '16px',
+      descriptionStyle: {
+        margin: '1em',
       }
     };
+
+    let concertLayout;
+
+    if (this.state.concertData) {
+      let data = JSON.parse(this.state.concertData);
+
+      concertLayout = (
+        <p style={styles.descriptionStyle}>
+          <b>Date:</b> {data.Fecha}
+          <br />
+          <b>Latitude:</b> {data.Ubicacion.lat}
+          <br />
+          <b>Longitude:</b> {data.Ubicacion.lng}
+          <br />
+          <b>Description:</b> {data.Descripcion}
+          <br />
+          <b>institucionId:</b> {data.institucionId}
+        </p>
+      );
+    }
 
     return (
       <Page>
@@ -62,7 +86,8 @@ class Concert extends Component {
 
         <Card style={styles.cardStyle}>
           {concertLayout}
-          <Button onClick={this.handleClick} style={styles.buttonStyle} type="submit" color="primary">Unirme</Button>
+          <Button onClick={this.handleJoinClick} type="submit" color="primary">Join</Button>
+          <Button onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
         </Card>
       </Page>
     );

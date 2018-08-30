@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Navigation from '../Navigation';
 import Page from '../Page';
 import Server from '../Server';
+import SessionHandler from '../SessionHandler';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
@@ -39,6 +40,16 @@ class Concerts extends Component {
       },
       buttonIconStyle: {
         marginRight: '8px',
+      },
+      concertLink: {
+        color: 'initial',
+        textDecoration: 'none',
+      },
+      concertDescription: {
+        margin: '0',
+      },
+      noConcertsStyle: {
+        margin: '16px 0 0 8px',
       }
     };
 
@@ -50,23 +61,35 @@ class Concerts extends Component {
       for (let concertNumber in allConcerts) {
         let concert = allConcerts[concertNumber];
         concertList.push(
-          <Card key={concert.id} style={styles.cardStyle}>
-            <Link to={"/concert?id=" + concert.id}>{concert.Descripcion}</Link>
-          </Card>
+          <Link key={concert.id} to={"/concert?id=" + concert.id} style={styles.concertLink}>
+            <Card style={styles.cardStyle}>
+              <p style={styles.concertDescription}>{concert.Descripcion}</p>
+            </Card>
+          </Link>
         );
       }
     }
+
+    let newConcertButton;
+
+    if (SessionHandler.isLoggedIn())
+      newConcertButton = (
+        <Link to="/forms/concert" style={styles.newConcertLink}>
+          <Button color="primary" variant="extendedFab" style={styles.buttonStyle}>
+            <AddIcon style={styles.buttonIconStyle} />
+            Create concert
+          </Button>
+        </Link>
+      );
+
+    if (!concertList.length)
+      concertList.push(<p key="0" style={styles.noConcertsStyle}>No concerts</p>)
 
     return (
       <Page>
         <Navigation />
 
-        <Link to="/forms/concert" style={styles.newConcertLink}>
-          <Button color="primary" variant="extendedFab" style={styles.buttonStyle}>
-            <AddIcon style={styles.buttonIconStyle} />
-            Crear concierto
-          </Button>
-        </Link>
+        {newConcertButton}
 
         <div>
           {concertList}

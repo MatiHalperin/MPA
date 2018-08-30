@@ -52,6 +52,22 @@ class Server {
       console.error(error);
     }
   }
+
+  static async deleteJson(path) {
+    try {
+      let response = await fetch(Server.getURL() + path, {
+        method: "DELETE",
+        headers: {
+          "Accept": "application/json",
+          "Content-Type": "application/json",
+        }
+      });
+      let responseJson = await response.json();
+      return responseJson;
+    } catch (error) {
+      console.error(error);
+    }
+  }
 }
 
 export default Server;

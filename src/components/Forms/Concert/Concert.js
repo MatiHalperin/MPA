@@ -39,7 +39,7 @@ class ConcertForm extends Component {
       institucionId: this.state.institucionId
     })
     .then(response => {
-      console.log(response);
+      this.props.history.push("/concerts");
     });
 
     event.preventDefault();
@@ -70,7 +70,7 @@ class ConcertForm extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField style={styles.firstTextFieldStyle} label="Date" type="text" value={this.state.date} onChange={this.handleChange('date')} />
+            <TextField style={styles.firstTextFieldStyle} label="Date" type="datetime-local" value={this.state.date} onChange={this.handleChange('date')} InputLabelProps={{shrink: true}} />
             <TextField style={styles.textFieldStyle} label="Latitude" type="text" value={this.state.latitude} onChange={this.handleChange('latitude')} />
             <TextField style={styles.textFieldStyle} label="Longitude" type="text" value={this.state.longitude} onChange={this.handleChange('longitude')} />
             <TextField style={styles.textFieldStyle} label="Description" type="text" value={this.state.description} onChange={this.handleChange('description')} />

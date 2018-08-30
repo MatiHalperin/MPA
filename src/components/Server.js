@@ -1,6 +1,6 @@
 class Server {
   static getURL() {
-    return "http://ec2-18-228-40-53.sa-east-1.compute.amazonaws.com:3000";
+    return "http://10.10.5.13:3000";
   }
 
   static async getJson(path) {

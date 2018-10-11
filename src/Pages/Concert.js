@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
-
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
 
 class Concert extends Component {
   constructor(props) {

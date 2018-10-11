@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 
-import Navigation from '../Components/Navigation';
-import Page from '../Components/Page';
-import Server from '../Helpers/Server';
-
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
+
+import Navigation from '../Components/Navigation';
+import Page from '../Components/Page';
+import Server from '../Helpers/Server';
 
 class Register extends Component {
   constructor(props) {

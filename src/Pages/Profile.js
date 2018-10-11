@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import Button from '@material-ui/core/Button';
+import Card from '@material-ui/core/Card';
+
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
-
-import Button from '@material-ui/core/Button';
-import Card from '@material-ui/core/Card';
 
 class Profile extends Component {
   constructor(props) {

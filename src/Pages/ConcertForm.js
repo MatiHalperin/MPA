@@ -13,11 +13,10 @@ class ConcertForm extends Component {
     super(props);
 
     this.state = {
-      date: '',
-      latitude: '',
-      longitude: '',
-      description: '',
-      institucionId: '',
+      title: "",
+      description: "",
+      address: "",
+      date: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -31,14 +30,14 @@ class ConcertForm extends Component {
   };
 
   handleSubmit(event) {
-    Server.postJson("/api/Conciertos", {
-      Fecha: this.state.date,
-      Ubicacion: { lat: this.state.latitude, lng: this.state.longitude },
-      Descripcion: this.state.description,
-      Confirmado: true,
-      institucionId: this.state.institucionId,
+    Server.interact("POST", "/api/Concerts", {
+      title: this.state.title,
+      description: this.state.description,
+      location: { lat: 0, lng: 0 },
+      address: this.state.address,
+      date: this.state.date
     })
-    .then(response => {
+    .then(() => {
       this.props.history.push("/concerts");
     });
 
@@ -70,11 +69,10 @@ class ConcertForm extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField style={styles.firstTextFieldStyle} label="Date" type="datetime-local" value={this.state.date} onChange={this.handleChange('date')} InputLabelProps={{shrink: true}} />
-            <TextField style={styles.textFieldStyle} label="Latitude" type="text" value={this.state.latitude} onChange={this.handleChange('latitude')} />
-            <TextField style={styles.textFieldStyle} label="Longitude" type="text" value={this.state.longitude} onChange={this.handleChange('longitude')} />
+            <TextField style={styles.firstTextFieldStyle} label="Title" type="text" value={this.state.title} onChange={this.handleChange('title')} />
             <TextField style={styles.textFieldStyle} label="Description" type="text" value={this.state.description} onChange={this.handleChange('description')} />
-            <TextField style={styles.textFieldStyle} label="institucionId" type="text" value={this.state.institucionId} onChange={this.handleChange('institucionId')} />
+            <TextField style={styles.textFieldStyle} label="Address" type="text" value={this.state.address} onChange={this.handleChange('address')} />
+            <TextField style={styles.textFieldStyle} label="Date" type="datetime-local" value={this.state.date} onChange={this.handleChange('date')} InputLabelProps={{shrink: true}} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Create</Button>
           </form>
         </Card>

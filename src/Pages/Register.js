@@ -29,20 +29,18 @@ class Register extends Component {
   };
 
   handleSubmit(event) {
-    Server.postJson("/api/Musicos", {
+    Server.interact("POST", "/api/users", {
       username: this.state.username,
       email: this.state.email,
-      password: this.state.password,
-      esmusico: false,
+      password: this.state.password
     })
-    .then(response => {
-      Server.postJson("/api/Musicos/login", {
+    .then(() => {
+      Server.interact("POST", "/api/users/login", {
         email: this.state.email,
-        password: this.state.password,
+        password: this.state.password
       })
       .then(response => {
-        if (response.userId != null && response.id != null)
-        {
+        if (response.userId != null && response.id != null) {
           sessionStorage.setItem("userId", response.userId);
           sessionStorage.setItem("accessToken", response.id);
           this.props.history.push("/");

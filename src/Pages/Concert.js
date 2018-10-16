@@ -17,12 +17,12 @@ class Concert extends Component {
       concertId: new URLSearchParams(this.props.location.search).get('id'),
     };
 
-    Server.getJson("/api/Conciertos/" + this.state.concertId)
+    Server.interact("GET", "/api/Concerts/" + this.state.concertId)
     .then(response => {
       this.setState({concertData: JSON.stringify(response)});
     });
 
-    Server.getJson("/api/ConciertoMusicos?filter={\"where\":{\"musicoId\":" + sessionStorage.getItem("userId") + ",\"conciertoId\":" + this.state.concertId + "}}&access_token=" + sessionStorage.getItem("accessToken"))
+    Server.interact("GET", "/api/Attendances?filter={\"where\":{\"userId\":" + sessionStorage.getItem("userId") + ",\"concertId\":" + this.state.concertId + "}}&access_token=" + sessionStorage.getItem("accessToken"))
     .then(response => {
       this.setState({userIsPartOfIt: (response.length > 0)});
     });
@@ -32,11 +32,11 @@ class Concert extends Component {
   }
 
   handleJoinClick(event) {
-    Server.postJson("/api/ConciertoMusicos", {
-      musicoId: sessionStorage.getItem("userId"),
-      conciertoId: this.state.concertId,
+    Server.interact("POST", "/api/Attendances", {
+      userId: sessionStorage.getItem("userId"),
+      concertId: this.state.concertId,
     })
-    .then(response => {
+    .then(() => {
       this.setState({userIsPartOfIt: true});
     });
 
@@ -44,8 +44,8 @@ class Concert extends Component {
   }
 
   handleDeleteClick(event) {
-    Server.deleteJson("/api/Conciertos/" + this.state.concertId)
-    .then(response => {
+    Server.interact("DELETE", "/api/Concerts/" + this.state.concertId)
+    .then(() => {
       this.props.history.push("/concerts");
     });
 
@@ -71,15 +71,13 @@ class Concert extends Component {
 
       concertLayout = (
         <p style={styles.descriptionStyle}>
-          <b>Date:</b> {data.Fecha}
+          <b>Title:</b> {data.title}
           <br />
-          <b>Latitude:</b> {data.Ubicacion.lat}
+          <b>Description:</b> {data.description}
           <br />
-          <b>Longitude:</b> {data.Ubicacion.lng}
+          <b>Address:</b> {data.address}
           <br />
-          <b>Description:</b> {data.Descripcion}
-          <br />
-          <b>institucionId:</b> {data.institucionId}
+          <b>Date:</b> {data.date}
         </p>
       );
     }

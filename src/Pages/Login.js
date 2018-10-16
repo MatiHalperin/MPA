@@ -32,13 +32,12 @@ class Login extends Component {
   };
 
   handleSubmit(event) {
-    Server.postJson("/api/Musicos/login", {
+    Server.interact("POST", "/api/users/login", {
       email: this.state.email,
-      password: this.state.password,
+      password: this.state.password
     })
     .then(response => {
-      if (response.userId != null && response.id != null)
-      {
+      if (response.userId != null && response.id != null) {
         sessionStorage.setItem("userId", response.userId);
         sessionStorage.setItem("accessToken", response.id);
         this.props.history.push("/");

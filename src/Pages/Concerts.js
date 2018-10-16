@@ -19,7 +19,7 @@ class Concerts extends Component {
       concerts: '',
     };
 
-    Server.getJson("/api/Conciertos")
+    Server.interact("GET", "/api/Concerts")
     .then(response => {
       this.setState({concerts: JSON.stringify(response)});
     });
@@ -63,7 +63,11 @@ class Concerts extends Component {
         concertList.push(
           <Link key={concert.id} to={"/concert?id=" + concert.id} style={styles.concertLink}>
             <Card style={styles.cardStyle}>
-              <p style={styles.concertDescription}>{concert.Descripcion}</p>
+              <p style={styles.concertDescription}>
+                <b>{concert.title}</b>
+                <br />
+                {concert.description}
+              </p>
             </Card>
           </Link>
         );

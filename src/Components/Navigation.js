@@ -44,7 +44,7 @@ class Navigation extends Component {
       <div style={styles.root}>
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="title" color="inherit" style={styles.grow}>
+            <Typography variant="h6" color="inherit" style={styles.grow}>
               <Link to="/" style={styles.menuLink}>MPA</Link>
             </Typography>
             <Button color="inherit">

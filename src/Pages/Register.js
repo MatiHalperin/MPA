@@ -29,23 +29,18 @@ class Register extends Component {
   };
 
   handleSubmit(event) {
-    Server.interact("POST", "/api/users", {
+    Server.interact("POST", "/signup", {
       username: this.state.username,
       email: this.state.email,
       password: this.state.password
     })
-    .then(() => {
-      Server.interact("POST", "/api/users/login", {
-        email: this.state.email,
-        password: this.state.password
-      })
-      .then(response => {
-        if (response.userId != null && response.id != null) {
-          sessionStorage.setItem("userId", response.userId);
-          sessionStorage.setItem("accessToken", response.id);
-          this.props.history.push("/");
-        }
-      });
+    .then(response => {
+      console.log(response);
+      if (response.userId != null && response.accessToken != null) {
+        sessionStorage.setItem("userId", response.userId);
+        sessionStorage.setItem("accessToken", response.accessToken);
+        this.props.history.push("/");
+      }
     });
 
     event.preventDefault();

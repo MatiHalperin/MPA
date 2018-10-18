@@ -32,14 +32,15 @@ class Login extends Component {
   };
 
   handleSubmit(event) {
-    Server.interact("POST", "/api/users/login", {
+    Server.interact("POST", "/log", {
       email: this.state.email,
       password: this.state.password
     })
     .then(response => {
-      if (response.userId != null && response.id != null) {
+      console.log(response);
+      if (response.userId != null && response.accessToken != null) {
         sessionStorage.setItem("userId", response.userId);
-        sessionStorage.setItem("accessToken", response.id);
+        sessionStorage.setItem("accessToken", response.accessToken);
         this.props.history.push("/");
       }
       else

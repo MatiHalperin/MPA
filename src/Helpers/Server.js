@@ -1,6 +1,6 @@
 class Server {
   static getURL() {
-    return "http://10.10.0.25:3000";
+    return "http://10.10.3.26:3000";
   }
 
   static async interact(method, path, body) {

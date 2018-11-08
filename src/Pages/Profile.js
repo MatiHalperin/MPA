@@ -13,28 +13,34 @@ class Profile extends Component {
     super(props);
 
     this.state = {
+      isMusician: '',
       username: '',
       email: '',
-      isMusician: '',
       name: '',
-      sirname: '',
-      video: '',
+      surname: '',
+      country: '',
+      province: '',
       city: '',
+      idCard: '',
+      photo: '',
+      video: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
 
-    this.path = "/api/Musicos/" + sessionStorage.getItem("userId") + "?access_token=" + sessionStorage.getItem("accessToken");
-
-    Server.getJson(this.path)
+    Server.interact("GET", "/users/" + sessionStorage.getItem("userId"))
     .then(response => {
+      this.setState({isMusician: response.isMusician});
       this.setState({username: response.username});
       this.setState({email: response.email});
-      this.setState({isMusician: response.esmusico});
-      this.setState({name: response.nombre});
-      this.setState({sirname: response.apellido});
+      this.setState({name: response.name});
+      this.setState({surname: response.surname});
+      this.setState({country: response.country});
+      this.setState({province: response.province});
+      this.setState({city: response.city});
+      this.setState({idCard: response.idCard});
+      this.setState({photo: response.photo});
       this.setState({video: response.video});
-      this.setState({city: response.ciudad});
     });
   }
 
@@ -50,6 +56,7 @@ class Profile extends Component {
         width: 'fit-content',
         padding: '16px',
         margin: '8px',
+        borderRadius: '8px',
       },
       username: {
         textAlign: 'center',
@@ -74,14 +81,18 @@ class Profile extends Component {
     var musicianBlock = this.state.isMusician
                       ? (
                           <div style={styles.musicianData}>
-                            <p><b>Nombre: </b>{this.state.name}</p>
-                            <p><b>Apellido: </b>{this.state.sirname}</p>
+                            <p><b>Name: </b>{this.state.name}</p>
+                            <p><b>Surname: </b>{this.state.surname}</p>
+                            <p><b>Country: </b>{this.state.country}</p>
+                            <p><b>Province: </b>{this.state.province}</p>
+                            <p><b>City: </b>{this.state.city}</p>
+                            <p><b>ID Card: </b>{this.state.idCard}</p>
+                            <p><b>Photo: </b>{this.state.photo}</p>
                             <p><b>Video: </b>{this.state.video}</p>
-                            <p><b>Ciudad: </b>{this.state.city}</p>
                           </div>
                         )
                       : (
-                          <Link to="/forms/Musician" style={styles.registerLink}>
+                          <Link to="/forms/musician" style={styles.registerLink}>
                             <Button style={styles.buttonStyle} color="primary">I am musician</Button>
                           </Link>
                         );

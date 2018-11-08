@@ -35,7 +35,6 @@ class Register extends Component {
       password: this.state.password
     })
     .then(response => {
-      console.log(response);
       if (response.userId != null && response.accessToken != null) {
         sessionStorage.setItem("userId", response.userId);
         sessionStorage.setItem("accessToken", response.accessToken);
@@ -52,6 +51,7 @@ class Register extends Component {
         width: 'fit-content',
         padding: '16px',
         margin: '8px',
+        borderRadius: '8px',
       },
       firstTextFieldStyle: {
         width: '100%',

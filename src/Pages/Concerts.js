@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
 
@@ -31,12 +32,13 @@ class Concerts extends Component {
         width: 'fit-content',
         padding: '16px',
         margin: '8px 8px 0',
+        borderRadius: '8px',
       },
       newConcertLink: {
         textDecoration: 'none',
       },
       buttonStyle: {
-        margin: '8px 0 0 8px',
+        margin: '16px 0 0 16px',
       },
       buttonIconStyle: {
         marginRight: '8px',
@@ -49,7 +51,7 @@ class Concerts extends Component {
         margin: '0',
       },
       noConcertsStyle: {
-        margin: '16px 0 0 8px',
+        margin: '16px',
       }
     };
 
@@ -87,7 +89,11 @@ class Concerts extends Component {
       );
 
     if (!concertList.length)
-      concertList.push(<p key="0" style={styles.noConcertsStyle}>No concerts</p>)
+      concertList.push(
+        <Typography variant="h6" style={styles.noConcertsStyle}>
+          No concerts available
+        </Typography>
+      )
 
     return (
       <Page>

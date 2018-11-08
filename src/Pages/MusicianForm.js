@@ -14,9 +14,13 @@ class MusicianForm extends Component {
 
     this.state = {
       name: '',
-      sirname: '',
-      video: '',
+      surname: '',
+      country: '',
+      province: '',
       city: '',
+      idCard: '',
+      photo: '',
+      video: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -30,14 +34,18 @@ class MusicianForm extends Component {
   };
 
   handleSubmit(event) {
-    Server.patchJson("/api/Musicos/" + sessionStorage.getItem("userId") + "?access_token=" + sessionStorage.getItem("accessToken"), {
-        nombre: this.state.name,
-        apellido: this.state.sirname,
-        video: this.state.video,
-        ciudad: this.state.city,
-        esmusico: true,
+    Server.interact("POST", "/users/" + sessionStorage.getItem("userId"), {
+      isMusician: true,
+      name: this.state.name,
+      surname: this.state.surname,
+      country: this.state.country,
+      province: this.state.province,
+      city: this.state.city,
+      idCard: this.state.idCard,
+      photo: this.state.photo,
+      video: this.state.video
     })
-    .then(response => {
+    .then(() => {
       this.props.history.push("/profile");
     });
 
@@ -50,13 +58,28 @@ class MusicianForm extends Component {
         width: 'fit-content',
         padding: '16px',
         margin: '8px',
-      },
-      halfWidthTextFieldStyle: {
-        width: '49%',
-        marginRight: '1%',
+        borderRadius: '8px',
       },
       textFieldStyle: {
         width: '100%',
+        marginTop: '16px',
+      },
+      firstLeftTextFieldStyle: {
+        width: '49%',
+        marginRight: '1%',
+      },
+      firstRightTextFieldStyle: {
+        width: '49%',
+        marginLeft: '1%',
+      },
+      leftTextFieldStyle: {
+        width: '49%',
+        marginRight: '1%',
+        marginTop: '16px',
+      },
+      rightTextFieldStyle: {
+        width: '49%',
+        marginLeft: '1%',
         marginTop: '16px',
       },
       buttonStyle: {
@@ -70,11 +93,14 @@ class MusicianForm extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <p><b>Convert account to musician</b></p>
-            <TextField style={styles.halfWidthTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
-            <TextField style={styles.halfWidthTextFieldStyle} label="Sirname" type="text" value={this.state.sirname} onChange={this.handleChange('sirname')} />
-            <TextField style={styles.textFieldStyle} label="Video" type="text" value={this.state.video} onChange={this.handleChange('video')} />
+            <TextField style={styles.firstLeftTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
+            <TextField style={styles.firstRightTextFieldStyle} label="Surname" type="text" value={this.state.surname} onChange={this.handleChange('surname')} />
+            <TextField style={styles.textFieldStyle} label="Country" type="text" value={this.state.country} onChange={this.handleChange('country')} />
+            <TextField style={styles.textFieldStyle} label="Province" type="text" value={this.state.province} onChange={this.handleChange('province')} />
             <TextField style={styles.textFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
+            <TextField style={styles.textFieldStyle} label="ID Card" type="text" value={this.state.idCard} onChange={this.handleChange('idCard')} />
+            <TextField style={styles.leftTextFieldStyle} label="Photo" type="text" value={this.state.photo} onChange={this.handleChange('photo')} />
+            <TextField style={styles.rightTextFieldStyle} label="Video" type="text" value={this.state.video} onChange={this.handleChange('video')} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Convert</Button>
           </form>
         </Card>

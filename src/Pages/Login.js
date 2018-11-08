@@ -56,6 +56,7 @@ class Login extends Component {
         width: 'fit-content',
         padding: '16px',
         margin: '8px',
+        borderRadius: '8px',
       },
       emailTextFieldStyle: {
         width: '100%',

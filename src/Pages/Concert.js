@@ -28,6 +28,7 @@ class Concert extends Component {
     });
 
     this.handleJoinClick = this.handleJoinClick.bind(this);
+    this.handleUnjoinClick = this.handleUnjoinClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
@@ -36,8 +37,18 @@ class Concert extends Component {
       userId: sessionStorage.getItem("userId"),
       concertId: this.state.concertId,
     })
-    .then(() => {
+    .then(response => {
+      this.setState({id: response.id});
       this.setState({userIsPartOfIt: true});
+    });
+
+    event.preventDefault();
+  }
+
+  handleUnjoinClick(event) {
+    Server.interact("DELETE", "/api/Attendances/" + this.state.id)
+    .then(() => {
+      this.setState({userIsPartOfIt: false});
     });
 
     event.preventDefault();
@@ -58,6 +69,7 @@ class Concert extends Component {
         width: 'fit-content',
         padding: '16px',
         margin: '8px',
+        borderRadius: '8px',
       },
       descriptionStyle: {
         margin: '1em',
@@ -82,10 +94,9 @@ class Concert extends Component {
       );
     }
 
-    let joinButton;
-
-    if (!this.state.userIsPartOfIt)
-      joinButton = <Button onClick={this.handleJoinClick} type="submit" color="primary">Join</Button>;
+    let joinButton = this.state.userIsPartOfIt
+      ? <Button onClick={this.handleUnjoinClick} type="submit" color="primary">Unjoin</Button>
+      : <Button onClick={this.handleJoinClick} type="submit" color="primary">Join</Button>;
 
     return (
       <Page>

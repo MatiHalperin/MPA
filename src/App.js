@@ -8,6 +8,7 @@ import ConcertForm from './Pages/ConcertForm';
 import MusicianForm from './Pages/MusicianForm';
 import Login from './Pages/Login';
 import Logout from './Pages/Logout';
+import Notice from './Pages/Notice';
 import Profile from './Pages/Profile';
 import Register from './Pages/Register';
 
@@ -21,6 +22,7 @@ const PageRouter = () => (
       <Route path="/forms/musician" component={MusicianForm} />
       <Route path="/login" component={Login} />
       <Route path="/logout" component={Logout} />
+      <Route path="/notice" component={Notice} />
       <Route path="/profile" component={Profile} />
       <Route path="/register" component={Register} />
     </div>

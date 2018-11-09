@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Iframe from 'react-iframe';
+
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 
@@ -27,28 +29,14 @@ class Concert extends Component {
       this.setState({userIsPartOfIt: (response.length > 0)});
     });
 
-    this.handleJoinClick = this.handleJoinClick.bind(this);
-    this.handleUnjoinClick = this.handleUnjoinClick.bind(this);
+    this.handleJoinToggleClick = this.handleJoinToggleClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
   }
 
-  handleJoinClick(event) {
-    Server.interact("POST", "/api/Attendances", {
-      userId: sessionStorage.getItem("userId"),
-      concertId: this.state.concertId,
-    })
-    .then(response => {
-      this.setState({id: response.id});
-      this.setState({userIsPartOfIt: true});
-    });
-
-    event.preventDefault();
-  }
-
-  handleUnjoinClick(event) {
-    Server.interact("DELETE", "/api/Attendances/" + this.state.id)
+  handleJoinToggleClick(event) {
+    Server.interact("POST", "/users/" + sessionStorage.getItem("userId") + "/concerts/" + this.state.concertId)
     .then(() => {
-      this.setState({userIsPartOfIt: false});
+      this.setState({userIsPartOfIt: !this.state.userIsPartOfIt});
     });
 
     event.preventDefault();
@@ -72,7 +60,7 @@ class Concert extends Component {
         borderRadius: '8px',
       },
       descriptionStyle: {
-        margin: '1em',
+        margin: '8px 0',
       }
     };
 
@@ -82,21 +70,24 @@ class Concert extends Component {
       let data = JSON.parse(this.state.concertData);
 
       concertLayout = (
-        <p style={styles.descriptionStyle}>
-          <b>Title:</b> {data.title}
-          <br />
-          <b>Description:</b> {data.description}
-          <br />
-          <b>Address:</b> {data.address}
-          <br />
-          <b>Date:</b> {data.date}
-        </p>
+        <div style={styles.descriptionStyle}>
+          <p style={styles.descriptionStyle}><b>Title:</b> {data.title}</p>
+          <p style={styles.descriptionStyle}><b>Description:</b> {data.description}</p>
+          <p style={styles.descriptionStyle}><b>Address:</b> {data.address}</p>
+          <div style={styles.descriptionStyle}>
+            <Iframe url={"https://www.google.com/maps/embed/v1/place?key=AIzaSyAQ2uCNQooGSzH4zkM4FAIFx5NWZPcNc4c&q=" + data.address}
+              position="static"
+              width="600px"
+              height="450px"
+              styles={{border: 0}}
+              allowFullScreen />
+          </div>
+          <p style={styles.descriptionStyle}><b>Date:</b> {data.date}</p>
+        </div>
       );
     }
 
-    let joinButton = this.state.userIsPartOfIt
-      ? <Button onClick={this.handleUnjoinClick} type="submit" color="primary">Unjoin</Button>
-      : <Button onClick={this.handleJoinClick} type="submit" color="primary">Join</Button>;
+    let joinToggleText = this.state.userIsPartOfIt ? "Unjoin" : "Join";
 
     return (
       <Page>
@@ -104,8 +95,8 @@ class Concert extends Component {
 
         <Card style={styles.cardStyle}>
           {concertLayout}
-          {joinButton}
-          <Button onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
+          <Button style={styles.descriptionStyle} onClick={this.handleJoinToggleClick} type="submit" color="primary">{joinToggleText}</Button>
+          <Button style={styles.descriptionStyle} onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
         </Card>
       </Page>
     );

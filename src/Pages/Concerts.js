@@ -89,7 +89,7 @@ class Concerts extends Component {
       );
 
     if (!concertList.length)
-      concertList.push(
+      concertList = (
         <Typography variant="h6" style={styles.noConcertsStyle}>
           No concerts available
         </Typography>

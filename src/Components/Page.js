@@ -9,6 +9,9 @@ class Page extends Component {
       palette: {
         primary: red,
       },
+      typography: {
+        useNextVariants: true,
+      },
     });
 
     return (

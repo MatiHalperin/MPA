@@ -64,7 +64,7 @@ class Home extends Component {
     }
 
     if (!noticesList.length)
-      noticesList.push(
+      noticesList = (
         <Typography variant="h6" style={styles.noNoticesStyle}>
           No notices available
         </Typography>

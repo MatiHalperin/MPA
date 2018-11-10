@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 
+import Geocode from "react-geocode";
+
 import Iframe from 'react-iframe';
 
 import Button from '@material-ui/core/Button';
@@ -32,16 +34,27 @@ class ConcertForm extends Component {
   };
 
   handleSubmit(event) {
-    Server.interact("POST", "/api/Concerts", {
-      title: this.state.title,
-      description: this.state.description,
-      location: { lat: 0, lng: 0 },
-      address: this.state.address,
-      date: this.state.date
-    })
-    .then(() => {
-      this.props.history.push("/concerts");
-    });
+    Geocode.setApiKey("AIzaSyAQ2uCNQooGSzH4zkM4FAIFx5NWZPcNc4c");
+
+    Geocode.fromAddress(this.state.address).then(
+      response => {
+        const { lat, lng } = response.results[0].geometry.location;
+
+        Server.interact("POST", "/api/Concerts", {
+          title: this.state.title,
+          description: this.state.description,
+          location: { lat: lat, lng: lng },
+          address: this.state.address,
+          date: this.state.date
+        })
+        .then(() => {
+          this.props.history.push("/concerts");
+        });
+      },
+      error => {
+        console.error(error);
+      }
+    );
 
     event.preventDefault();
   }

@@ -16,6 +16,7 @@ class Register extends Component {
       username: '',
       email: '',
       password: '',
+      error: false,
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -24,6 +25,7 @@ class Register extends Component {
 
   handleChange = name => event => {
     this.setState({
+      error: false,
       [name]: event.target.value,
     });
   };
@@ -35,11 +37,17 @@ class Register extends Component {
       password: this.state.password
     })
     .then(response => {
-      if (response.userId != null && response.accessToken != null) {
+      if (response && response.userId != null && response.accessToken != null) {
         sessionStorage.setItem("userId", response.userId);
         sessionStorage.setItem("accessToken", response.accessToken);
+
+        if (this.state.email === "admin@mpa.org")
+          sessionStorage.setItem("admin", true);
+
         this.props.history.push("/");
       }
+      else
+        this.setState({error: true});
     });
 
     event.preventDefault();
@@ -71,9 +79,9 @@ class Register extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField style={styles.firstTextFieldStyle} label="Username" type="text" value={this.state.username} onChange={this.handleChange('username')} />
-            <TextField style={styles.textFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
-            <TextField style={styles.textFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
+            <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Username" type="text" value={this.state.username} onChange={this.handleChange('username')} />
+            <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
+            <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Password" type="password" value={this.state.password} onChange={this.handleChange('password')} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Register</Button>
           </form>
         </Card>

@@ -18,9 +18,7 @@ class MusicianForm extends Component {
       country: '',
       province: '',
       city: '',
-      idCard: '',
-      photo: '',
-      video: ''
+      idCard: ''
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -41,9 +39,7 @@ class MusicianForm extends Component {
       country: this.state.country,
       province: this.state.province,
       city: this.state.city,
-      idCard: this.state.idCard,
-      photo: this.state.photo,
-      video: this.state.video
+      idCard: this.state.idCard
     })
     .then(() => {
       this.props.history.push("/profile");
@@ -93,14 +89,12 @@ class MusicianForm extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField style={styles.firstLeftTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
-            <TextField style={styles.firstRightTextFieldStyle} label="Surname" type="text" value={this.state.surname} onChange={this.handleChange('surname')} />
-            <TextField style={styles.textFieldStyle} label="Country" type="text" value={this.state.country} onChange={this.handleChange('country')} />
-            <TextField style={styles.textFieldStyle} label="Province" type="text" value={this.state.province} onChange={this.handleChange('province')} />
-            <TextField style={styles.textFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
-            <TextField style={styles.textFieldStyle} label="ID Card" type="text" value={this.state.idCard} onChange={this.handleChange('idCard')} />
-            <TextField style={styles.leftTextFieldStyle} label="Photo" type="text" value={this.state.photo} onChange={this.handleChange('photo')} />
-            <TextField style={styles.rightTextFieldStyle} label="Video" type="text" value={this.state.video} onChange={this.handleChange('video')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.firstLeftTextFieldStyle} label="Name" type="text" value={this.state.name} onChange={this.handleChange('name')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.firstRightTextFieldStyle} label="Surname" type="text" value={this.state.surname} onChange={this.handleChange('surname')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Country" type="text" value={this.state.country} onChange={this.handleChange('country')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Province" type="text" value={this.state.province} onChange={this.handleChange('province')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="City" type="text" value={this.state.city} onChange={this.handleChange('city')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="ID Card" type="number" value={this.state.idCard} onChange={this.handleChange('idCard')} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Convert</Button>
           </form>
         </Card>

@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
 
-import Iframe from 'react-iframe';
-
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import TextField from '@material-ui/core/TextField';
@@ -10,15 +8,13 @@ import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
 
-class ConcertForm extends Component {
+class NoticeForm extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
       title: "",
-      description: "",
-      address: "",
-      date: ""
+      body: ""
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -32,15 +28,12 @@ class ConcertForm extends Component {
   };
 
   handleSubmit(event) {
-    Server.interact("POST", "/api/Concerts", {
+    Server.interact("POST", "/api/Notices", {
       title: this.state.title,
-      description: this.state.description,
-      location: { lat: 0, lng: 0 },
-      address: this.state.address,
-      date: this.state.date
+      body: this.state.body
     })
     .then(() => {
-      this.props.history.push("/concerts");
+      this.props.history.push("/");
     });
 
     event.preventDefault();
@@ -66,19 +59,6 @@ class ConcertForm extends Component {
       }
     };
 
-    let map;
-
-    if (this.state.address)
-      map = (
-        <div style={styles.textFieldStyle}>
-          <Iframe url={"https://www.google.com/maps/embed/v1/place?key=AIzaSyAQ2uCNQooGSzH4zkM4FAIFx5NWZPcNc4c&q=" + this.state.address}
-            position="static"
-            height="450px"
-            styles={{border: 0}}
-            allowFullScreen />
-        </div>
-      )
-
     return (
       <Page>
         <Navigation />
@@ -86,10 +66,7 @@ class ConcertForm extends Component {
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
             <TextField InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Title" type="text" value={this.state.title} onChange={this.handleChange('title')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Description" type="text" value={this.state.description} onChange={this.handleChange('description')} />
-            <TextField InputLabelProps={{ required: false, shrink: true }} required style={styles.textFieldStyle} label="Date" type="datetime-local" value={this.state.date} onChange={this.handleChange('date')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Address" type="text" value={this.state.address} onChange={this.handleChange('address')} />
-            {map}
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Body" type="text" value={this.state.body} onChange={this.handleChange('body')} />
             <Button style={styles.buttonStyle} type="submit" color="primary">Create</Button>
           </form>
         </Card>
@@ -98,4 +75,4 @@ class ConcertForm extends Component {
   }
 }
 
-export default ConcertForm;
+export default NoticeForm;

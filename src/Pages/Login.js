@@ -24,9 +24,8 @@ class Login extends Component {
   }
 
   handleChange = name => event => {
-    this.setState({error: false});
-
     this.setState({
+      error: false,
       [name]: event.target.value,
     });
   };
@@ -37,10 +36,13 @@ class Login extends Component {
       password: this.state.password
     })
     .then(response => {
-      console.log(response);
       if (response.userId != null && response.accessToken != null) {
         sessionStorage.setItem("userId", response.userId);
         sessionStorage.setItem("accessToken", response.accessToken);
+
+        if (this.state.email === "admin@mpa.org")
+          sessionStorage.setItem("admin", true);
+
         this.props.history.push("/");
       }
       else

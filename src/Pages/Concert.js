@@ -1,13 +1,16 @@
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 
 import Iframe from 'react-iframe';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import TextField from '@material-ui/core/TextField';
 
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
+import SessionHandler from '../Helpers/SessionHandler';
 
 class Concert extends Component {
   constructor(props) {
@@ -16,11 +19,14 @@ class Concert extends Component {
     this.state = {
       concertData: '',
       userIsPartOfIt: false,
+      confirmed: false,
       concertId: new URLSearchParams(this.props.location.search).get('id'),
+      users: '',
     };
 
     Server.interact("GET", "/api/Concerts/" + this.state.concertId)
     .then(response => {
+      this.setState({confirmed: response.confirmed});
       this.setState({concertData: JSON.stringify(response)});
     });
 
@@ -31,6 +37,7 @@ class Concert extends Component {
 
     this.handleJoinToggleClick = this.handleJoinToggleClick.bind(this);
     this.handleDeleteClick = this.handleDeleteClick.bind(this);
+    this.handleConfirmClick = this.handleConfirmClick.bind(this);
   }
 
   handleJoinToggleClick(event) {
@@ -51,6 +58,17 @@ class Concert extends Component {
     event.preventDefault();
   }
 
+  handleConfirmClick(event) {
+    Server.interact("PATCH", "/api/Concerts/" + this.state.concertId, {
+      confirmed: true
+    })
+    .then(() => {
+      this.setState({confirmed: true});
+    });
+
+    event.preventDefault();
+  }
+
   render() {
     const styles = {
       cardStyle: {
@@ -61,6 +79,12 @@ class Concert extends Component {
       },
       descriptionStyle: {
         margin: '8px 0',
+      },
+      userContainer: {
+        width: 'fit-content',
+      },
+      noMargin: {
+        margin: 0,
       }
     };
 
@@ -74,6 +98,7 @@ class Concert extends Component {
           <p style={styles.descriptionStyle}><b>Title:</b> {data.title}</p>
           <p style={styles.descriptionStyle}><b>Description:</b> {data.description}</p>
           <p style={styles.descriptionStyle}><b>Address:</b> {data.address}</p>
+          <TextField disabled InputLabelProps={{ shrink: true }} style={styles.descriptionStyle} label="Date" type="datetime-local" defaultValue={data.date.slice(0, -1)} />
           <div style={styles.descriptionStyle}>
             <Iframe url={"https://www.google.com/maps/embed/v1/place?key=AIzaSyAQ2uCNQooGSzH4zkM4FAIFx5NWZPcNc4c&q=" + data.address}
               position="static"
@@ -82,12 +107,62 @@ class Concert extends Component {
               styles={{border: 0}}
               allowFullScreen />
           </div>
-          <p style={styles.descriptionStyle}><b>Date:</b> {data.date}</p>
         </div>
       );
+
+      if (SessionHandler.isAdmin() && !this.state.users) {
+        Server.interact("GET", "/api/Concerts/" + this.state.concertId + "/users")
+        .then(response => {
+          let users = [];
+
+          for (let user in response) {
+            let userData = response[user];
+            users.push(
+              <Link key={userData.id} to={"/profile?id=" + userData.id}>
+                <p style={styles.noMargin}>
+                  {userData.email}
+                </p>
+              </Link>
+            )
+          }
+
+          if (users.length > 0)
+            this.setState({users: users});
+        });
+      }
     }
 
-    let joinToggleText = this.state.userIsPartOfIt ? "Unjoin" : "Join";
+    let userList;
+
+    if (this.state.users) {
+      userList = (
+        <div style={styles.userContainer}>
+          <p><b>Users:</b></p>
+          <ul>
+            {this.state.users.map((item, index) => <li key={index}>{item}</li>)}
+          </ul>
+        </div>
+      )
+    }
+
+    let joinToggleButton, deleteButton, confirmButton;
+
+    if (SessionHandler.isAdmin()) {
+      deleteButton = (
+        <Button style={styles.descriptionStyle} onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
+      )
+
+      if (this.state.confirmed === false)
+        confirmButton = (
+          <Button style={styles.descriptionStyle} onClick={this.handleConfirmClick} type="submit" color="primary">Confirm</Button>
+        )
+    }
+    else if (SessionHandler.isLoggedIn())
+      joinToggleButton = (
+        <Button style={styles.descriptionStyle} onClick={this.handleJoinToggleClick} type="submit" color="primary">
+          {this.state.userIsPartOfIt ? "Unjoin" : "Join"}
+        </Button>
+      )
 
     return (
       <Page>
@@ -95,8 +170,10 @@ class Concert extends Component {
 
         <Card style={styles.cardStyle}>
           {concertLayout}
-          <Button style={styles.descriptionStyle} onClick={this.handleJoinToggleClick} type="submit" color="primary">{joinToggleText}</Button>
-          <Button style={styles.descriptionStyle} onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
+          {userList}
+          {joinToggleButton}
+          {confirmButton}
+          {deleteButton}
         </Card>
       </Page>
     );

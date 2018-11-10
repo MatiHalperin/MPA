@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+
+import AddIcon from '@material-ui/icons/Add';
 
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
+import SessionHandler from '../Helpers/SessionHandler';
 
 class Home extends Component {
   constructor(props) {
@@ -30,6 +34,15 @@ class Home extends Component {
         margin: '8px 8px 0',
         borderRadius: '8px',
       },
+      newNoticeLink: {
+        textDecoration: 'none',
+      },
+      buttonStyle: {
+        margin: '16px 0 0 16px',
+      },
+      buttonIconStyle: {
+        marginRight: '8px',
+      },
       noticeLink: {
         color: 'initial',
         textDecoration: 'none',
@@ -42,7 +55,19 @@ class Home extends Component {
       }
     };
 
-    var noticesList = [];
+    let newNotice;
+
+    if (SessionHandler.isAdmin())
+      newNotice = (
+        <Link to="/forms/notice" style={styles.newNoticeLink}>
+          <Button color="primary" variant="extendedFab" style={styles.buttonStyle}>
+            <AddIcon style={styles.buttonIconStyle} />
+            New notice
+          </Button>
+        </Link>
+      );
+
+    let noticesList = [];
 
     if (this.state.notices) {
       let allNotices = JSON.parse(this.state.notices);
@@ -73,6 +98,8 @@ class Home extends Component {
     return (
       <Page>
         <Navigation />
+
+        {newNotice}
 
         <div>
           {noticesList}

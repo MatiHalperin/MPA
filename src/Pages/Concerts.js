@@ -55,24 +55,26 @@ class Concerts extends Component {
       }
     };
 
-    var concertList = [];
+    let concertList = [];
 
     if (this.state.concerts) {
       let allConcerts = JSON.parse(this.state.concerts);
 
       for (let concertNumber in allConcerts) {
         let concert = allConcerts[concertNumber];
-        concertList.push(
-          <Link key={concert.id} to={"/concert?id=" + concert.id} style={styles.concertLink}>
-            <Card style={styles.cardStyle}>
-              <p style={styles.concertDescription}>
-                <b>{concert.title}</b>
-                <br />
-                {concert.description}
-              </p>
-            </Card>
-          </Link>
-        );
+
+        if (concert.confirmed === true || SessionHandler.isAdmin())
+          concertList.push(
+            <Link key={concert.id} to={"/concert?id=" + concert.id} style={styles.concertLink}>
+              <Card style={styles.cardStyle}>
+                <p style={styles.concertDescription}>
+                  <b>{concert.title}</b>
+                  <br />
+                  {concert.description}
+                </p>
+              </Card>
+            </Link>
+          );
       }
     }
 
@@ -83,7 +85,7 @@ class Concerts extends Component {
         <Link to="/forms/concert" style={styles.newConcertLink}>
           <Button color="primary" variant="extendedFab" style={styles.buttonStyle}>
             <AddIcon style={styles.buttonIconStyle} />
-            Create concert
+            Ask for a new concert
           </Button>
         </Link>
       );

@@ -1,6 +1,6 @@
 class Server {
   static getURL() {
-    return "http://10.10.4.31:3000";
+    return "https://mpaserver.herokuapp.com";
   }
 
   static async interact(method, path, body) {

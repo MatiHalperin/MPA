@@ -3,14 +3,19 @@ class SessionHandler {
       return sessionStorage.getItem("userId") !== null && sessionStorage.getItem("accessToken") !== null;
     }
 
+    static isMusician() {
+      return sessionStorage.getItem("isMusician") === true;
+    }
+
     static isAdmin() {
-      return sessionStorage.getItem("admin") !== null;
+      return sessionStorage.getItem("isAdmin") === "true";
     }
   
     static logOut() {
       sessionStorage.removeItem("userId");
       sessionStorage.removeItem("accessToken");
-      sessionStorage.removeItem("admin");
+      sessionStorage.removeItem("isMusician");
+      sessionStorage.removeItem("isAdmin");
     }
   }
   

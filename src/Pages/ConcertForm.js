@@ -11,6 +11,7 @@ import TextField from '@material-ui/core/TextField';
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
+import SessionHandler from '../Helpers/SessionHandler';
 
 class ConcertForm extends Component {
   constructor(props) {
@@ -45,7 +46,8 @@ class ConcertForm extends Component {
           description: this.state.description,
           location: { lat: lat, lng: lng },
           address: this.state.address,
-          date: this.state.date
+          date: this.state.date,
+          confirmed: SessionHandler.isAdmin()
         })
         .then(() => {
           this.props.history.push("/concerts");

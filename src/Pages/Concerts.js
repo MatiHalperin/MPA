@@ -78,6 +78,8 @@ class Concerts extends Component {
       }
     }
 
+    let newConcertText = SessionHandler.isAdmin() ? "Create concert" : "Ask for a new concert";
+
     let newConcertButton;
 
     if (SessionHandler.isLoggedIn())
@@ -85,7 +87,7 @@ class Concerts extends Component {
         <Link to="/forms/concert" style={styles.newConcertLink}>
           <Button color="primary" variant="extendedFab" style={styles.buttonStyle}>
             <AddIcon style={styles.buttonIconStyle} />
-            Ask for a new concert
+            {newConcertText}
           </Button>
         </Link>
       );

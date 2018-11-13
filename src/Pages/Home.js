@@ -3,6 +3,9 @@ import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import CardActions from '@material-ui/core/CardActions';
+import CardContent from '@material-ui/core/CardContent';
+import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -21,9 +24,25 @@ class Home extends Component {
     };
 
     Server.interact("GET", "/api/Notices")
-    .then(response => {
-      this.setState({notices: JSON.stringify(response)});
+    .then(notices => {
+      notices.sort((a, b) => b.id - a.id);
+      this.setState({notices: notices});
     });
+  }
+
+  handleDeleteClick = id => event => {
+    Server.interact("DELETE", "/api/Notices/" + id)
+    .then(() => {
+      let notices = this.state.notices;
+
+      for (let notice in notices)
+        if (notices[notice].id === id)
+          notices.splice(notice, 1);
+
+      this.setState({notices: notices});
+    });
+
+    event.preventDefault();
   }
 
   render() {
@@ -43,13 +62,6 @@ class Home extends Component {
       buttonIconStyle: {
         marginRight: '8px',
       },
-      noticeLink: {
-        color: 'initial',
-        textDecoration: 'none',
-      },
-      noticeDescription: {
-        margin: '0',
-      },
       noNoticesStyle: {
         margin: '16px',
       }
@@ -62,7 +74,7 @@ class Home extends Component {
         <Link to="/forms/notice" style={styles.newNoticeLink}>
           <Button color="primary" variant="extendedFab" style={styles.buttonStyle}>
             <AddIcon style={styles.buttonIconStyle} />
-            New notice
+            Nueva noticia
           </Button>
         </Link>
       );
@@ -70,20 +82,36 @@ class Home extends Component {
     let noticesList = [];
 
     if (this.state.notices) {
-      let allNotices = JSON.parse(this.state.notices);
+      let allNotices = this.state.notices;
 
       for (let noticeNumber in allNotices) {
         let notice = allNotices[noticeNumber];
+
+        let deleteButton;
+
+        if (SessionHandler.isAdmin())
+          deleteButton = (
+            <CardActions>
+              <Button onClick={this.handleDeleteClick(notice.id)} type="submit" color="primary">
+                Eliminar
+              </Button>
+            </CardActions>
+          )
+
         noticesList.push(
-          <Link key={notice.id} to={"/notice?id=" + notice.id} style={styles.noticeLink}>
-            <Card style={styles.cardStyle}>
-              <p style={styles.noticeDescription}>
-                <b>{notice.title}</b>
-                <br />
-                {notice.body}
-              </p>
+          <Grid key={notice.id} item xs={4}>
+            <Card style={{borderRadius: '8px'}}>
+              <CardContent>
+                <Typography style={{marginBottom: '12px'}} variant="h5" component="h2">
+                  {notice.title}
+                </Typography>
+                <Typography component="p">
+                  {notice.body}
+                </Typography>
+              </CardContent>
+              {deleteButton}
             </Card>
-          </Link>
+          </Grid>
         );
       }
     }
@@ -91,7 +119,7 @@ class Home extends Component {
     if (!noticesList.length)
       noticesList = (
         <Typography variant="h6" style={styles.noNoticesStyle}>
-          No notices available
+          No hay noticias
         </Typography>
       )
 
@@ -101,9 +129,9 @@ class Home extends Component {
 
         {newNotice}
 
-        <div>
+        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '0 auto'}}>
           {noticesList}
-        </div>
+        </Grid>
       </Page>
     );
   }

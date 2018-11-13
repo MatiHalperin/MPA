@@ -5,7 +5,6 @@ import Iframe from 'react-iframe';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import TextField from '@material-ui/core/TextField';
 
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
@@ -107,12 +106,15 @@ class Concert extends Component {
     if (this.state.concertData) {
       let data = JSON.parse(this.state.concertData);
 
+      let date = new Date(data.date);
+      date = date.getUTCDate() + "/" + (date.getUTCMonth() + 1) + "/" + date.getUTCFullYear() + " " + date.getUTCHours() + ":" + date.getUTCMinutes();
+
       concertLayout = (
         <div style={styles.descriptionStyle}>
           <p style={styles.descriptionStyle}><b>Title:</b> {data.title}</p>
           <p style={styles.descriptionStyle}><b>Description:</b> {data.description}</p>
           <p style={styles.descriptionStyle}><b>Address:</b> {data.address}</p>
-          <TextField disabled InputLabelProps={{ shrink: true }} style={styles.descriptionStyle} label="Date" type="datetime-local" defaultValue={data.date.slice(0, -1)} />
+          <p style={styles.descriptionStyle}><b>Date:</b> {date}</p>
           <div style={styles.descriptionStyle}>
             <Iframe url={"https://www.google.com/maps/embed/v1/place?key=AIzaSyAQ2uCNQooGSzH4zkM4FAIFx5NWZPcNc4c&q=" + data.address}
               position="static"

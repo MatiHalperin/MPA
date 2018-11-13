@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 
+import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
 
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
 import Server from '../Helpers/Server';
+import SessionHandler from '../Helpers/SessionHandler';
 
 class Notice extends Component {
   constructor(props) {
@@ -19,6 +21,17 @@ class Notice extends Component {
     .then(response => {
       this.setState({noticeData: JSON.stringify(response)});
     });
+
+    this.handleDeleteClick = this.handleDeleteClick.bind(this);
+  }
+
+  handleDeleteClick(event) {
+    Server.interact("DELETE", "/api/Notices/" + this.state.noticeId)
+    .then(() => {
+      this.props.history.push("/");
+    });
+
+    event.preventDefault();
   }
 
   render() {
@@ -30,7 +43,10 @@ class Notice extends Component {
         borderRadius: '8px',
       },
       noMargin: {
-          margin: 0
+          margin: 0,
+      },
+      deleteButton: {
+        marginTop: '16px',
       }
     };
 
@@ -48,12 +64,20 @@ class Notice extends Component {
       );
     }
 
+    let deleteButton;
+
+    if (SessionHandler.isAdmin())
+      deleteButton = (
+        <Button style={styles.deleteButton} onClick={this.handleDeleteClick} type="submit" color="primary">Delete</Button>
+      )
+
     return (
       <Page>
         <Navigation />
 
         <Card style={styles.cardStyle}>
           {noticeLayout}
+          {deleteButton}
         </Card>
       </Page>
     );

@@ -17,12 +17,23 @@ class Concert extends Component {
     super(props);
 
     this.state = {
+      concertId: new URLSearchParams(this.props.location.search).get('id'),
+      isMusician: false,
+      reported: false,
+      confirmed: false,
       concertData: '',
       userIsPartOfIt: false,
-      confirmed: false,
-      concertId: new URLSearchParams(this.props.location.search).get('id'),
       users: '',
     };
+
+    if (SessionHandler.isLoggedIn())
+      Server.interact("GET", "/users/" + sessionStorage.getItem("userId"))
+      .then(response => {
+        this.setState({isMusician: response.isMusician});
+
+        if ("rate" in response)
+          this.setState({reported: true});
+      });
 
     Server.interact("GET", "/api/Concerts/" + this.state.concertId)
     .then(response => {
@@ -85,6 +96,9 @@ class Concert extends Component {
       },
       noMargin: {
         margin: 0,
+      },
+      getEmailsLink: {
+        textDecoration: 'none',
       }
     };
 
@@ -120,7 +134,7 @@ class Concert extends Component {
             users.push(
               <Link key={userData.id} to={"/profile?id=" + userData.id}>
                 <p style={styles.noMargin}>
-                  {userData.email}
+                  {userData.name} {userData.surname}
                 </p>
               </Link>
             )
@@ -136,11 +150,16 @@ class Concert extends Component {
 
     if (this.state.users) {
       userList = (
-        <div style={styles.userContainer}>
-          <p><b>Users:</b></p>
-          <ul>
-            {this.state.users.map((item, index) => <li key={index}>{item}</li>)}
-          </ul>
+        <div>
+          <div style={styles.userContainer}>
+            <p><b>Users:</b></p>
+            <ul>
+              {this.state.users.map((item, index) => <li key={index}>{item}</li>)}
+            </ul>
+          </div>
+          <Link to={"/concertEmails?id=" + this.state.concertId} style={styles.getEmailsLink}>
+            <Button>Get emails</Button>
+          </Link>
         </div>
       )
     }
@@ -157,7 +176,7 @@ class Concert extends Component {
           <Button style={styles.descriptionStyle} onClick={this.handleConfirmClick} type="submit" color="primary">Confirm</Button>
         )
     }
-    else if (SessionHandler.isLoggedIn())
+    else if (this.state.isMusician === true && !this.state.reported)
       joinToggleButton = (
         <Button style={styles.descriptionStyle} onClick={this.handleJoinToggleClick} type="submit" color="primary">
           {this.state.userIsPartOfIt ? "Unjoin" : "Join"}

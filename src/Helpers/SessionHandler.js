@@ -3,10 +3,6 @@ class SessionHandler {
       return sessionStorage.getItem("userId") !== null && sessionStorage.getItem("accessToken") !== null;
     }
 
-    static isMusician() {
-      return sessionStorage.getItem("isMusician") === true;
-    }
-
     static isAdmin() {
       return sessionStorage.getItem("isAdmin") === "true";
     }

@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 
 import Home from './Pages/Home';
 import Concert from './Pages/Concert';
+import ConcertMails from './Pages/ConcertMails';
 import Concerts from './Pages/Concerts';
 import ConcertForm from './Pages/ConcertForm';
 import MusicianForm from './Pages/MusicianForm';
@@ -18,6 +19,7 @@ const PageRouter = () => (
     <div>
       <Route exact path="/" component={Home} />
       <Route path="/concert" component={Concert} />
+      <Route path="/concertEmails" component={ConcertMails} />
       <Route path="/concerts" component={Concerts} />
       <Route path="/forms/concert" component={ConcertForm} />
       <Route path="/forms/musician" component={MusicianForm} />

@@ -3,6 +3,11 @@ import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import FormControl from '@material-ui/core/FormControl';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormLabel from '@material-ui/core/FormLabel';
+import Radio from '@material-ui/core/Radio';
+import RadioGroup from '@material-ui/core/RadioGroup';
 import Typography from '@material-ui/core/Typography';
 
 import AddIcon from '@material-ui/icons/Add';
@@ -17,21 +22,31 @@ class Concerts extends Component {
     super(props);
 
     this.state = {
+      sortMethod: "0",
       concerts: '',
     };
 
     Server.interact("GET", "/api/Concerts")
     .then(response => {
-      this.setState({concerts: JSON.stringify(response)});
+      if (!SessionHandler.isAdmin())
+        response = response.filter((a) => new Date(a.date) >= new Date());
+
+      this.setState({concerts: response});
     });
+
+    this.handleChange = this.handleChange.bind(this);
   }
+
+  handleChange = event => {
+    this.setState({ sortMethod: event.target.value });
+  };
 
   render() {
     const styles = {
       cardStyle: {
         width: 'fit-content',
         padding: '16px',
-        margin: '8px 8px 0',
+        margin: '8px 0 0 16px',
         borderRadius: '8px',
       },
       newConcertLink: {
@@ -42,6 +57,9 @@ class Concerts extends Component {
       },
       buttonIconStyle: {
         marginRight: '8px',
+      },
+      sortStyle: {
+        margin: '16px 0 0 16px',
       },
       concertLink: {
         color: 'initial',
@@ -58,7 +76,16 @@ class Concerts extends Component {
     let concertList = [];
 
     if (this.state.concerts) {
-      let allConcerts = JSON.parse(this.state.concerts);
+      let allConcerts = this.state.concerts;
+
+      switch(this.state.sortMethod) {
+        case "1":
+          allConcerts.sort((a, b) => new Date(a.date) - new Date(b.date));
+          break;
+        default:
+          allConcerts.sort((a, b) => b.id - a.id);
+          break;
+      }
 
       for (let concertNumber in allConcerts) {
         let concert = allConcerts[concertNumber];
@@ -80,7 +107,7 @@ class Concerts extends Component {
 
     let newConcertText = SessionHandler.isAdmin() ? "Create concert" : "Ask for a new concert";
 
-    let newConcertButton;
+    let newConcertButton, sortBox;
 
     if (SessionHandler.isLoggedIn())
       newConcertButton = (
@@ -92,7 +119,19 @@ class Concerts extends Component {
         </Link>
       );
 
-    if (!concertList.length)
+    if (concertList.length)
+        sortBox = (
+          <div style={styles.sortStyle}>
+          <FormControl component="fieldset">
+            <FormLabel component="legend">Sorting method</FormLabel>
+            <RadioGroup value={this.state.sortMethod} onChange={this.handleChange} row>
+              <FormControlLabel value="0" control={<Radio color="primary" />} label="Creation date" />
+              <FormControlLabel value="1" control={<Radio color="primary" />} label="Closeness to date" />
+            </RadioGroup>
+          </FormControl>
+        </div>
+        )
+    else
       concertList = (
         <Typography variant="h6" style={styles.noConcertsStyle}>
           No concerts available
@@ -104,6 +143,8 @@ class Concerts extends Component {
         <Navigation />
 
         {newConcertButton}
+
+        {sortBox}
 
         <div>
           {concertList}

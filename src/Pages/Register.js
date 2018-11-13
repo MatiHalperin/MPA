@@ -40,7 +40,6 @@ class Register extends Component {
       if (response && response.userId != null && response.accessToken != null) {
         sessionStorage.setItem("userId", response.userId);
         sessionStorage.setItem("accessToken", response.accessToken);
-        sessionStorage.setItem("isMusician", response.isMusician);
 
         if (this.state.email === "admin@mpa.org")
           sessionStorage.setItem("isAdmin", true);

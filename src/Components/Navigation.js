@@ -85,9 +85,9 @@ class Navigation extends Component {
     }
     else
       menuButton = (
-        <Button color="inherit">
-          <Link to="/login" style={styles.navbarLink}>Iniciar sesión</Link>
-        </Button>
+        <Link to="/login" style={styles.navbarLink}>
+          <Button color="inherit">Iniciar sesión</Button>
+        </Link>
       );
 
     return (
@@ -99,9 +99,9 @@ class Navigation extends Component {
             <Typography variant="h6" color="inherit" style={styles.grow}>
               <Link to="/" style={styles.navbarLink}>MPA</Link>
             </Typography>
-            <Button color="inherit">
-              <Link to="/concerts" style={styles.navbarLink}>Conciertos</Link>
-            </Button>
+            <Link to="/concerts" style={styles.navbarLink}>
+              <Button color="inherit">Conciertos</Button>
+            </Link>
             {menuButton}
           </Toolbar>
         </AppBar>

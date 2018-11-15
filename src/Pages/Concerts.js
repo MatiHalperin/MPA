@@ -92,10 +92,8 @@ class Concerts extends Component {
     Server.interact("GET", "/api/Concerts/" + id + "/users")
     .then(response => {
       let userList = response.map((user) => (
-        <Link key={user.id} to={"/profile?id=" + user.id}>
-          <p style={{margin: 0}}>
-            {user.name} {user.surname}
-          </p>
+        <Link key={user.id} to={"/profile?id=" + user.id} style={{color: 'initial', textDecoration: 'initial'}}>
+          <Button style={{textTransform: 'initial'}}>{user.name} {user.surname}</Button>
         </Link>
       ));
 
@@ -166,20 +164,20 @@ class Concerts extends Component {
         textDecoration: 'none',
       },
       buttonStyle: {
-        margin: '16px 0 0 16px',
+        margin: '24px 0 0 24px',
       },
       buttonIconStyle: {
         marginRight: '8px',
       },
       sortStyle: {
-        margin: '24px 0 0 24px',
+        margin: '24px 0 -12px 24px',
       },
       linkNoStyle: {
         color: 'initial',
         textDecoration: 'none',
       },
       noConcertsStyle: {
-        margin: '16px',
+        margin: '12px 0 0 12px',
       }
     };
 
@@ -246,7 +244,7 @@ class Concerts extends Component {
               )
 
           concertList.push(
-            <Grid key={concert.id} item xs={4}>
+            <Grid key={concert.id} item xs={4} xl={3}>
               <Card style={{borderRadius: '8px'}}>
                 <CardHeader title={concert.title} subheader={date} />
                 <div>
@@ -326,7 +324,7 @@ class Concerts extends Component {
           </DialogActions>
         </Dialog>
 
-        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '0 auto'}}>
+        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '12px auto 0'}}>
           {concertList}
         </Grid>
       </Page>

@@ -60,21 +60,14 @@ class Register extends Component {
 
   render() {
     const styles = {
-      cardStyle: {
-        width: '25%',
-        padding: '16px',
-        margin: '8px',
-        borderRadius: '8px',
-      },
       firstTextFieldStyle: {
         width: '100%',
       },
       textFieldStyle: {
         width: '100%',
-        marginTop: '16px',
+        marginTop: '32px',
       },
       loginLink: {
-        marginLeft: '16px',
         textDecoration: 'none',
       }
     };
@@ -82,20 +75,22 @@ class Register extends Component {
     return (
       <Page>
         <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '100%'}}>
-          <Card style={{width: '40%', margin: '0 30%', borderRadius: '8px'}}>
+        <Card style={{width: '450px', margin: '0 auto', borderRadius: '8px', padding: '36px 24px 24px'}}>
             <CardContent> 
-              <Link to="/">
-                <img src={require("../logo.svg")} alt="logo" style={{width: '40%', margin: '16px 30% 24px'}} />
-              </Link>
+              <div style={{width: '100%', textAlign: 'center', marginBottom: '48px'}}>
+                <Link to="/">
+                  <img src={require("../logo.svg")} alt="logo" style={{width: '150px'}} />
+                </Link>
+              </div>
               <form onSubmit={this.handleSubmit}>
                 <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Usuario" type="text" value={this.state.username} onChange={this.handleChange('username')} />
                 <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
                 <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Contraseña" type="password" value={this.state.password} onChange={this.handleChange('password')} />
-                <div style={{marginTop: '24px'}}>
-                  <Button variant="contained" type="submit" color="primary">Registrarse</Button>
+                <div style={{marginTop: '48px'}}>
                   <Link to="/login" style={styles.loginLink}>
                     <Button color="primary">Iniciar sesión</Button>
                   </Link>
+                  <Button variant="contained" type="submit" color="primary" style={{float: 'right'}}>Registrarse</Button>
                 </div>
               </form>
             </CardContent>

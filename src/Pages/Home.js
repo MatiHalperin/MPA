@@ -57,13 +57,13 @@ class Home extends Component {
         textDecoration: 'none',
       },
       buttonStyle: {
-        margin: '16px 0 0 16px',
+        margin: '24px 0 0 24px',
       },
       buttonIconStyle: {
         marginRight: '8px',
       },
       noNoticesStyle: {
-        margin: '16px',
+        margin: '12px 0 0 12px',
       }
     };
 
@@ -99,7 +99,7 @@ class Home extends Component {
           )
 
         noticesList.push(
-          <Grid key={notice.id} item xs={4}>
+          <Grid key={notice.id} item xs={4} xl={3}>
             <Card style={{borderRadius: '8px'}}>
               <CardContent>
                 <Typography style={{marginBottom: '12px'}} variant="h5" component="h2">
@@ -129,7 +129,7 @@ class Home extends Component {
 
         {newNotice}
 
-        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '0 auto'}}>
+        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '12px auto 0'}}>
           {noticesList}
         </Grid>
       </Page>

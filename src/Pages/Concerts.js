@@ -8,6 +8,10 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardHeader from '@material-ui/core/CardHeader';
 import CardContent from '@material-ui/core/CardContent';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormLabel from '@material-ui/core/FormLabel';
@@ -28,10 +32,13 @@ class Concerts extends Component {
     super(props);
 
     this.state = {
+      open: false,
+      currentConcert: 0,
       sortMethod: "0",
       concerts: '',
       isMusician: false,
-      reported: false
+      reported: false,
+      userList: ''
     };
 
     Server.interact("GET", "/api/Concerts")
@@ -72,6 +79,35 @@ class Concerts extends Component {
   handleChange = event => {
     this.setState({ sortMethod: event.target.value });
   };
+
+  handleClickOpen = () => {
+    this.setState({ open: true });
+  };
+
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
+  handleViewUsersClick = id => event => {
+    Server.interact("GET", "/api/Concerts/" + id + "/users")
+    .then(response => {
+      let userList = response.map((user) => (
+        <Link key={user.id} to={"/profile?id=" + user.id}>
+          <p style={{margin: 0}}>
+            {user.name} {user.surname}
+          </p>
+        </Link>
+      ));
+
+      this.setState({
+        currentConcert: id,
+        userList: userList,
+        open: true
+      });
+    });
+
+    event.preventDefault();
+  }
 
   handleConfirmClick = id => event => {
     Server.interact("PATCH", "/api/Concerts/" + id, {
@@ -122,6 +158,10 @@ class Concerts extends Component {
 
   render() {
     const styles = {
+      container: {
+        display: 'flex',
+        flexWrap: 'wrap',
+      },
       newConcertLink: {
         textDecoration: 'none',
       },
@@ -134,7 +174,7 @@ class Concerts extends Component {
       sortStyle: {
         margin: '24px 0 0 24px',
       },
-      concertLink: {
+      linkNoStyle: {
         color: 'initial',
         textDecoration: 'none',
       },
@@ -164,9 +204,15 @@ class Concerts extends Component {
         date = ('0' + date.getUTCDate()).slice(-2) + "/" + ('0' + (date.getUTCMonth() + 1)).slice(-2) + "/" + ('000' + date.getUTCFullYear()).slice(-4) + " - " + ('0' + date.getUTCHours()).slice(-2) + ":" + ('0' + date.getUTCMinutes()).slice(-2) + "hs";
 
         if (concert.confirmed === true || SessionHandler.isAdmin()) {
-          let confirmButton, deleteButton, joinToggleButton;
+          let viewUsersButton, confirmButton, deleteButton, joinToggleButton;
 
           if (SessionHandler.isAdmin()) {
+            viewUsersButton = (
+              <Button onClick={this.handleViewUsersClick(concert.id)} type="submit" color="primary">
+                Ver usuarios
+              </Button>
+            )
+
             if (concert.confirmed === false)
               confirmButton = (
                 <Button onClick={this.handleConfirmClick(concert.id)} type="submit" color="primary">
@@ -192,6 +238,7 @@ class Concerts extends Component {
           if (confirmButton || deleteButton || joinToggleButton)
               actionButtons = (
                 <CardActions>
+                  {viewUsersButton}
                   {confirmButton}
                   {deleteButton}
                   {joinToggleButton}
@@ -261,6 +308,23 @@ class Concerts extends Component {
         {newConcertButton}
 
         {sortBox}
+
+        <Dialog open={this.state.open} onClose={this.handleClose}>
+          <DialogTitle>Usuarios</DialogTitle>
+          <DialogContent>
+            {this.state.userList}
+          </DialogContent>
+          <DialogActions>
+            <Link to={"/concertEmails?id=" + this.state.currentConcert} style={styles.linkNoStyle}>
+              <Button color="primary">
+                Ver mails
+              </Button>
+            </Link>
+            <Button onClick={this.handleClose} color="primary">
+              Ok
+            </Button>
+          </DialogActions>
+        </Dialog>
 
         <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '0 auto'}}>
           {concertList}

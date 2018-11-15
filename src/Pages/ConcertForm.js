@@ -64,9 +64,9 @@ class ConcertForm extends Component {
   render() {
     const styles = {
       cardStyle: {
-        width: 'fit-content',
+        width: '50%',
         padding: '16px',
-        margin: '8px',
+        margin: '16px 25%',
         borderRadius: '8px',
       },
       firstTextFieldStyle: {
@@ -77,7 +77,7 @@ class ConcertForm extends Component {
         marginTop: '16px',
       },
       buttonStyle: {
-        marginTop: '16px',
+        marginTop: '24px',
       }
     };
 
@@ -94,18 +94,22 @@ class ConcertForm extends Component {
         </div>
       )
 
+    let buttonText = SessionHandler.isAdmin() ? "Crear" : "Solicitar";
+
     return (
       <Page>
         <Navigation />
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Title" type="text" value={this.state.title} onChange={this.handleChange('title')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Description" type="text" value={this.state.description} onChange={this.handleChange('description')} />
-            <TextField InputLabelProps={{ required: false, shrink: true }} required style={styles.textFieldStyle} label="Date" type="datetime-local" value={this.state.date} onChange={this.handleChange('date')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Address" type="text" value={this.state.address} onChange={this.handleChange('address')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Título" type="text" value={this.state.title} onChange={this.handleChange('title')} />
+            <TextField InputLabelProps={{ required: false }} required multiline style={styles.textFieldStyle} label="Descripción" type="text" value={this.state.description} onChange={this.handleChange('description')} />
+            <TextField InputLabelProps={{ required: false, shrink: true }} required style={styles.textFieldStyle} label="Fecha" type="datetime-local" value={this.state.date} onChange={this.handleChange('date')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Dirección" type="text" value={this.state.address} onChange={this.handleChange('address')} />
             {map}
-            <Button style={styles.buttonStyle} type="submit" color="primary">Create</Button>
+            <Button style={styles.buttonStyle} variant="contained" type="submit" color="primary">
+              {buttonText}
+            </Button>
           </form>
         </Card>
       </Page>

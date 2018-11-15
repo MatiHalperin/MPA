@@ -42,9 +42,9 @@ class NoticeForm extends Component {
   render() {
     const styles = {
       cardStyle: {
-        width: 'fit-content',
+        width: '50%',
         padding: '16px',
-        margin: '8px',
+        margin: '16px 25%',
         borderRadius: '8px',
       },
       firstTextFieldStyle: {
@@ -55,7 +55,7 @@ class NoticeForm extends Component {
         marginTop: '16px',
       },
       buttonStyle: {
-        marginTop: '16px',
+        marginTop: '24px',
       }
     };
 
@@ -65,9 +65,9 @@ class NoticeForm extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Title" type="text" value={this.state.title} onChange={this.handleChange('title')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Body" type="text" value={this.state.body} onChange={this.handleChange('body')} />
-            <Button style={styles.buttonStyle} type="submit" color="primary">Create</Button>
+            <TextField InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Título" type="text" value={this.state.title} onChange={this.handleChange('title')} />
+            <TextField InputLabelProps={{ required: false }} required multiline style={styles.textFieldStyle} label="Cuerpo de la noticia" type="text" value={this.state.body} onChange={this.handleChange('body')} />
+            <Button style={styles.buttonStyle} variant="contained" type="submit" color="primary">Crear</Button>
           </form>
         </Card>
       </Page>

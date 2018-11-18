@@ -67,26 +67,11 @@ class MusicianForm extends Component {
         margin: '16px 25%',
         borderRadius: '8px',
       },
+      firstTextFieldStyle: {
+        width: '100%',
+      },
       textFieldStyle: {
         width: '100%',
-        marginTop: '16px',
-      },
-      firstLeftTextFieldStyle: {
-        width: '49%',
-        marginRight: '1%',
-      },
-      firstRightTextFieldStyle: {
-        width: '49%',
-        marginLeft: '1%',
-      },
-      leftTextFieldStyle: {
-        width: '49%',
-        marginRight: '1%',
-        marginTop: '16px',
-      },
-      rightTextFieldStyle: {
-        width: '49%',
-        marginLeft: '1%',
         marginTop: '16px',
       },
       buttonStyle: {
@@ -100,9 +85,9 @@ class MusicianForm extends Component {
 
         <Card style={styles.cardStyle}>
           <form onSubmit={this.handleSubmit}>
-            <TextField InputLabelProps={{ required: false }} required style={styles.firstLeftTextFieldStyle} label="Nombre" type="text" value={this.state.name} onChange={this.handleChange('name')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.firstRightTextFieldStyle} label="Apellido" type="text" value={this.state.surname} onChange={this.handleChange('surname')} />
-            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="DNI" type="number" value={this.state.idCard} onChange={this.handleChange('idCard')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Nombre" type="text" value={this.state.name} onChange={this.handleChange('name')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Apellido" type="text" value={this.state.surname} onChange={this.handleChange('surname')} />
+            <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="DNI" type="text" value={this.state.idCard} onChange={this.handleChange('idCard')} />
             <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="País" type="text" value={this.state.country} onChange={this.handleChange('country')} />
             <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Provincia" type="text" value={this.state.province} onChange={this.handleChange('province')} />
             <TextField InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Ciudad" type="text" value={this.state.city} onChange={this.handleChange('city')} />

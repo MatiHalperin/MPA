@@ -23,12 +23,18 @@ class ConcertMails extends Component {
   }
 
   render() {
+    const styles = {
+      noMargin: {
+        margin: 0
+      }
+    };
+
     let emails;
 
     if (this.state.emails)
       emails = (
-        <p style={{margin: 0}}>
-          {this.state.emails.map((item, index) => <div>{item}<br /></div> )}
+        <p style={styles.noMargin}>
+          {this.state.emails.map((item) => <div>{item}<br /></div> )}
         </p>
       )
 

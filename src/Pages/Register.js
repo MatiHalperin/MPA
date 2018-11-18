@@ -60,6 +60,27 @@ class Register extends Component {
 
   render() {
     const styles = {
+      cardWrapperStyle: {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: '100%',
+      },
+      cardStyle: {
+        width: '450px',
+        margin: '0 auto',
+        padding: '36px 24px 24px',
+        borderRadius: '8px',
+      },
+      imageWrapperStyle: {
+        width: '100%',
+        marginBottom: '48px',
+        textAlign: 'center',
+      },
+      imageStyle: {
+        width: '150px',
+      },
       firstTextFieldStyle: {
         width: '100%',
       },
@@ -67,30 +88,36 @@ class Register extends Component {
         width: '100%',
         marginTop: '32px',
       },
+      actionsStyle: {
+        marginTop: '48px',
+      },
       loginLink: {
         textDecoration: 'none',
+      },
+      registerButtonStyle: {
+        float: 'right',
       }
     };
 
     return (
       <Page>
-        <div style={{position: 'absolute', left: '50%', top: '50%', transform: 'translate(-50%, -50%)', width: '100%'}}>
-        <Card style={{width: '450px', margin: '0 auto', borderRadius: '8px', padding: '36px 24px 24px'}}>
+        <div style={styles.cardWrapperStyle}>
+        <Card style={styles.cardStyle}>
             <CardContent> 
-              <div style={{width: '100%', textAlign: 'center', marginBottom: '48px'}}>
+              <div style={styles.imageWrapperStyle}>
                 <Link to="/">
-                  <img src={require("../logo.svg")} alt="logo" style={{width: '150px'}} />
+                  <img src={require("../logo.svg")} alt="logo" style={styles.imageStyle} />
                 </Link>
               </div>
               <form onSubmit={this.handleSubmit}>
                 <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.firstTextFieldStyle} label="Usuario" type="text" value={this.state.username} onChange={this.handleChange('username')} />
                 <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Email" type="email" value={this.state.email} onChange={this.handleChange('email')} />
                 <TextField error={this.state.error} InputLabelProps={{ required: false }} required style={styles.textFieldStyle} label="Contraseña" type="password" value={this.state.password} onChange={this.handleChange('password')} />
-                <div style={{marginTop: '48px'}}>
+                <div style={styles.actionsStyle}>
                   <Link to="/login" style={styles.loginLink}>
                     <Button color="primary">Iniciar sesión</Button>
                   </Link>
-                  <Button variant="contained" type="submit" color="primary" style={{float: 'right'}}>Registrarse</Button>
+                  <Button variant="contained" type="submit" color="primary" style={styles.registerButtonStyle}>Registrarse</Button>
                 </div>
               </form>
             </CardContent>

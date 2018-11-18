@@ -172,6 +172,16 @@ class Concerts extends Component {
       sortStyle: {
         margin: '24px 0 -12px 24px',
       },
+      gridStyle: {
+        width: 'calc(100% - 24px)',
+        margin: '12px auto 0',
+      },
+      cardStyle: {
+        borderRadius: '8px',
+      },
+      noBorder: {
+        border: 0,
+      },
       linkNoStyle: {
         color: 'initial',
         textDecoration: 'none',
@@ -245,12 +255,12 @@ class Concerts extends Component {
 
           concertList.push(
             <Grid key={concert.id} item xs={4} xl={3}>
-              <Card style={{borderRadius: '8px'}}>
+              <Card style={styles.cardStyle}>
                 <CardHeader title={concert.title} subheader={date} />
                 <div>
                   <Iframe url={"https://www.google.com/maps/embed/v1/place?key=AIzaSyAQ2uCNQooGSzH4zkM4FAIFx5NWZPcNc4c&q=" + concert.address}
                     position="static"
-                    styles={{border: 0}}
+                    styles={styles.noBorder}
                     allowFullScreen />
                 </div>
                 <CardContent>
@@ -324,7 +334,7 @@ class Concerts extends Component {
           </DialogActions>
         </Dialog>
 
-        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '12px auto 0'}}>
+        <Grid container spacing={24} style={styles.gridStyle}>
           {concertList}
         </Grid>
       </Page>

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
+import Typography from '@material-ui/core/Typography';
 
 import Navigation from '../Components/Navigation';
 import Page from '../Components/Page';
@@ -76,8 +76,8 @@ class Profile extends Component {
     Server.interact("POST", "/users/" + this.state.userId, {
       rate: 1
     })
-    .then(response => {
-      console.log(response);
+    .then(() => {
+      this.setState({ reported: true });
     });
 
     event.preventDefault();
@@ -87,28 +87,21 @@ class Profile extends Component {
     const styles = {
       cardStyle: {
         width: 'fit-content',
-        padding: '16px',
-        margin: '8px',
+        padding: '16px 24px',
+        margin: '16px auto 0',
         borderRadius: '8px',
-      },
-      username: {
         textAlign: 'center',
-        margin: 0,
-      },
-      email: {
-        textAlign: 'center',
-        marginTop: '0.5em',
       },
       musicianData: {
+        width: 'fit-content',
+        margin: '16px auto 0',
+        padding: '16px 24px',
         border: '1px solid black',
         borderRadius: '8px',
-        padding: '0 1em',
+        textAlign: 'initial',
       },
       buttonStyle: {
-        marginTop: '8px',
-      },
-      registerLink: {
-        textDecoration: 'none',
+        marginTop: '16px',
       }
     };
 
@@ -117,35 +110,40 @@ class Profile extends Component {
     if (this.state.isMusician) {
       musicianBlock = (
         <div style={styles.musicianData}>
-          <p><b>Name: </b>{this.state.name}</p>
-          <p><b>Surname: </b>{this.state.surname}</p>
-          <p><b>ID Card: </b>{this.state.idCard}</p>
-          <p><b>Country: </b>{this.state.country}</p>
-          <p><b>Province: </b>{this.state.province}</p>
-          <p><b>City: </b>{this.state.city}</p>
-          <p><b>Instrument: </b>{this.state.instrument}</p>
-          <p><b>Style: </b>{this.state.style}</p>
-          <p><b>Experience: </b>{this.state.experience}</p>
-          <p><b>Formation: </b>{this.state.formation}</p>
-          <p><b>Band: </b>{this.state.band}</p>
+          <Typography variant="body1">
+            <b>Nombre: </b>{this.state.name}
+            <br />
+            <b>Apellido: </b>{this.state.surname}
+            <br />
+            <b>DNI: </b>{this.state.idCard}
+            <br />
+            <b>País: </b>{this.state.country}
+            <br />
+            <b>Provincia: </b>{this.state.province}
+            <br />
+            <b>Ciudad: </b>{this.state.city}
+            <br />
+            <b>Instrumento: </b>{this.state.instrument}
+            <br />
+            <b>Estilo: </b>{this.state.style}
+            <br />
+            <b>Experiencia: </b>{this.state.experience}
+            <br />
+            <b>Formación: </b>{this.state.formation}
+            <br />
+            <b>Banda: </b>{this.state.band}
+          </Typography>
         </div>
       )
-    }
-    else if (SessionHandler.isLoggedIn() && this.state.userId === sessionStorage.getItem("userId")) {
-      musicianBlock = (
-        <Link to="/forms/musician" style={styles.registerLink}>
-          <Button style={styles.buttonStyle} color="primary">I am musician</Button>
-        </Link>
-      );
     }
 
     if (this.state.reported)
       reportButton = (
-        <Button disabled style={styles.buttonStyle} type="submit" color="primary">Reported</Button>
+        <Button disabled style={styles.buttonStyle} type="submit" color="primary">Reportado</Button>
       )
     else if (SessionHandler.isAdmin() && this.state.userId !== sessionStorage.getItem("userId"))
       reportButton = (
-        <Button style={styles.buttonStyle} onClick={this.handleReportClick} type="submit" color="primary">Report</Button>
+        <Button style={styles.buttonStyle} onClick={this.handleReportClick} type="submit" color="primary">Reportar</Button>
       );
 
     return (
@@ -153,8 +151,8 @@ class Profile extends Component {
         <Navigation />
 
         <Card style={styles.cardStyle}>
-          <h1 style={styles.username}>{this.state.username}</h1>
-          <p style={styles.email}>{this.state.email}</p>
+          <Typography variant="h4">{this.state.username}</Typography>
+          <Typography variant="h6">{this.state.email}</Typography>
           {musicianBlock}
           {reportButton}
         </Card>

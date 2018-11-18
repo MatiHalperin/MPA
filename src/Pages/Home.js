@@ -47,11 +47,15 @@ class Home extends Component {
 
   render() {
     const styles = {
+      gridStyle: {
+        width: 'calc(100% - 24px)',
+        margin: '12px auto 0',
+      },
       cardStyle: {
-        width: 'fit-content',
-        padding: '16px',
-        margin: '8px 8px 0',
         borderRadius: '8px',
+      },
+      titleStyle: {
+        marginBottom: '12px',
       },
       newNoticeLink: {
         textDecoration: 'none',
@@ -100,9 +104,9 @@ class Home extends Component {
 
         noticesList.push(
           <Grid key={notice.id} item xs={4} xl={3}>
-            <Card style={{borderRadius: '8px'}}>
+            <Card style={styles.cardStyle}>
               <CardContent>
-                <Typography style={{marginBottom: '12px'}} variant="h5" component="h2">
+                <Typography style={styles.titleStyle} variant="h5" component="h2">
                   {notice.title}
                 </Typography>
                 <Typography component="p">
@@ -129,7 +133,7 @@ class Home extends Component {
 
         {newNotice}
 
-        <Grid container spacing={24} style={{width: 'calc(100% - 24px)', margin: '12px auto 0'}}>
+        <Grid container spacing={24} style={styles.gridStyle}>
           {noticesList}
         </Grid>
       </Page>

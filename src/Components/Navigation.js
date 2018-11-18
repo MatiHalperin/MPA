@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
 
 import SessionHandler from '../Helpers/SessionHandler';
 
@@ -30,8 +29,12 @@ class Navigation extends Component {
       root: {
         flexGrow: 1,
       },
-      grow: {
+      logoWrapperStyle: {
         flexGrow: 1,
+      },
+      logoStyle: {
+        height: '48px',
+        padding: '16px 0',
       },
       navbarLink: {
         color: "white",
@@ -96,9 +99,9 @@ class Navigation extends Component {
 
         <AppBar position="static">
           <Toolbar>
-            <Typography variant="h6" color="inherit" style={styles.grow}>
-              <Link to="/" style={styles.navbarLink}>MPA</Link>
-            </Typography>
+            <Link to="/" style={styles.logoWrapperStyle}>
+              <img src={require("../logo_white.svg")} alt="logo" style={styles.logoStyle} />
+            </Link>
             <Link to="/concerts" style={styles.navbarLink}>
               <Button color="inherit">Conciertos</Button>
             </Link>
